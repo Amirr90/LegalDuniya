@@ -9,6 +9,29 @@ type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 const MAX_MESSAGES = 20;
 const MAX_CONTENT_LEN = 4000;
 
+const CHAT_RATE_LIMIT = 20;
+const CHAT_WINDOW_MS = 15 * 60 * 1000;
+const chatBuckets = new Map<string, number[]>();
+
+function clientIp(req: Request): string {
+  const forwarded = req.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const first = forwarded.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  return req.headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+function allowChatRequest(ip: string): boolean {
+  const now = Date.now();
+  const windowStart = now - CHAT_WINDOW_MS;
+  const prev = chatBuckets.get(ip)?.filter((t) => t > windowStart) ?? [];
+  if (prev.length >= CHAT_RATE_LIMIT) return false;
+  prev.push(now);
+  chatBuckets.set(ip, prev);
+  return true;
+}
+
 export async function POST(req: Request) {
   const model = process.env.OLLAMA_MODEL?.trim();
   if (!model) {
@@ -68,6 +91,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Message too long." }, { status: 400 });
     }
     messages.push({ role, content: content.trim() });
+  }
+
+  const ip = clientIp(req);
+  if (!allowChatRequest(ip)) {
+    return NextResponse.json(
+      { error: "Too many requests from this network. Please try again later." },
+      { status: 429 },
+    );
   }
 
   const base = process.env.OLLAMA_BASE_URL?.trim() || DEFAULT_OLLAMA_BASE;

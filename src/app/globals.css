@@ -4,7 +4,7 @@
   color-scheme: dark;
   --background: #0a0c10;
   --foreground: #eef0f4;
-  --muted: #9aa3b2;
+  --muted: #a8b3c4;
   --surface: #121822;
   --surface-elevated: #1a2230;
   --border: #2a3545;
@@ -142,6 +142,18 @@ body {
   }
 }
 
+@keyframes hero-legal-drift {
+  0%,
+  100% {
+    transform: translate3d(-1.8%, -1.2%, 0) rotate(-0.4deg);
+    opacity: 0.82;
+  }
+  50% {
+    transform: translate3d(1.8%, 1.4%, 0) rotate(0.35deg);
+    opacity: 1;
+  }
+}
+
 /* Decorative hero layers — keep behind content (z-index in component) */
 .hero-backdrop-aurora {
   position: absolute;
@@ -154,6 +166,7 @@ body {
     radial-gradient(ellipse 45% 35% at 50% 95%, rgba(74, 111, 165, 0.12), transparent 55%);
   background-size: 160% 160%, 140% 140%, 130% 130%;
   animation: hero-aurora-shift 22s ease-in-out infinite;
+  animation-iteration-count: infinite;
 }
 
 .hero-backdrop-grid {
@@ -168,6 +181,44 @@ body {
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 85% 70% at 50% -10%, black 20%, transparent 75%);
   animation: hero-grid-drift 28s ease-in-out infinite;
+  animation-iteration-count: infinite;
+}
+
+/* Abstract filing + scales motif — decorative only */
+.hero-backdrop-legal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  color: var(--accent);
+  opacity: 0.065;
+  mask-image: radial-gradient(ellipse 92% 78% at 48% 42%, black 32%, transparent 78%);
+}
+
+.hero-backdrop-legal-secondary {
+  stroke: var(--glow);
+}
+
+.hero-backdrop-legal-drift {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation-name: hero-legal-drift;
+  animation-duration: 42s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+.hero-backdrop-legal-svg {
+  display: block;
+  width: 118%;
+  height: 118%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: -6% -9%;
 }
 
 .card-interactive {
@@ -194,6 +245,15 @@ body {
   .hero-backdrop-aurora,
   .hero-backdrop-grid {
     animation: none !important;
+  }
+
+  .hero-backdrop-legal-drift {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .hero-backdrop-legal {
+    opacity: 0.06;
   }
 
   .hero-backdrop-aurora {

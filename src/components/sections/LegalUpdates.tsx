@@ -18,11 +18,12 @@ export function LegalUpdates() {
               </h2>
               <p className="mt-3 max-w-2xl text-muted">
                 Short briefs on judgments, policy shifts, and regulatory signals—curated for founders, in-house
-                teams, and families navigating disputes.
+                teams, and families navigating disputes. The items below are on this page for context (not separate
+                articles).
               </p>
             </div>
-            <Link href="/#updates" className="text-sm font-semibold text-accent underline-offset-4 hover:underline">
-              View updates
+            <Link href="/contact" className="text-sm font-semibold text-accent underline-offset-4 hover:underline">
+              Speak to counsel
             </Link>
           </div>
         </ScrollReveal>
@@ -33,13 +34,10 @@ export function LegalUpdates() {
         >
           {legalUpdates.map((item) => (
             <li key={item.title}>
-              <Link
-                href={item.href}
-                className="flex flex-col gap-2 px-5 py-4 transition hover:bg-surface sm:flex-row sm:items-center sm:justify-between"
-              >
+              <article className="flex flex-col gap-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="font-medium text-foreground">{item.title}</div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-muted">{item.date}</div>
-              </Link>
+              </article>
             </li>
           ))}
         </StaggerReveal>

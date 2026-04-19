@@ -2,13 +2,19 @@ import { HeroVisual } from "@/components/sections/HeroVisual";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { contactChannels, whatsappPrefillChat, whatsappPrefillTalk } from "@/content/site";
+import { contactChannels, whatsappPrefillChat } from "@/content/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 const heroImage =
   "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80";
 
-const waTalk = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillTalk);
+/**
+ * Hero CTAs match the site header: primary = structured intake (`/contact`), secondary = WhatsApp chat.
+ * See Header desktop/mobile CTA mapping.
+ */
+const heroHeadline =
+  "Verified lawyers for property, business, family, and disputes — confidential consults across India";
+
 const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 export function Hero() {
@@ -16,39 +22,78 @@ export function Hero() {
     <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface to-background">
       <div className="hero-backdrop-aurora" aria-hidden />
       <div className="hero-backdrop-grid" aria-hidden />
+      <div className="hero-backdrop-legal" aria-hidden>
+        <div className="hero-backdrop-legal-drift">
+          <svg
+            className="hero-backdrop-legal-svg"
+            viewBox="0 0 1000 640"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice"
+            focusable="false"
+          >
+          <g className="hero-backdrop-legal-doc" fill="none" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="36" y="72" width="320" height="496" rx="5" opacity="0.22" fill="currentColor" stroke="none" />
+            <line x1="68" y1="118" x2="328" y2="118" opacity="0.45" />
+            <line x1="68" y1="152" x2="300" y2="152" opacity="0.35" />
+            <line x1="68" y1="186" x2="312" y2="186" opacity="0.35" />
+            <line x1="68" y1="220" x2="280" y2="220" opacity="0.3" />
+            <line x1="68" y1="254" x2="308" y2="254" opacity="0.3" />
+            <line x1="56" y1="96" x2="56" y2="548" opacity="0.5" />
+          </g>
+          <g className="hero-backdrop-legal-scales" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="720" y1="520" x2="720" y2="168" opacity="0.55" />
+            <line x1="560" y1="168" x2="880" y2="168" opacity="0.55" />
+            <ellipse cx="618" cy="212" rx="46" ry="20" opacity="0.38" />
+            <ellipse cx="822" cy="212" rx="46" ry="20" opacity="0.38" />
+            <line x1="572" y1="168" x2="572" y2="200" opacity="0.4" />
+            <line x1="868" y1="168" x2="868" y2="200" opacity="0.4" />
+            <circle cx="720" cy="168" r="5" opacity="0.5" fill="currentColor" stroke="none" />
+          </g>
+          <g className="hero-backdrop-legal-secondary" fill="none" strokeWidth="0.75" strokeLinecap="round" opacity="0.55">
+            <path d="M 420 420 Q 520 360 620 400 T 820 380" opacity="0.4" />
+            <line x1="380" y1="480" x2="900" y2="440" opacity="0.25" />
+          </g>
+          </svg>
+        </div>
+      </div>
       <Container className="relative z-10 grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
         <ScrollReveal rootMargin="22% 0px -12% 0px">
           <div className="space-y-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Legal work, streamlined</p>
-            <h1 className="font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-              Serious legal work—handled by verified counsel, on your timeline.
+            <h1 className="max-w-4xl font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+              {heroHeadline}
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              From filings and diligence to disputes and compliance: connect with advocates for family, property,
-              corporate, criminal, and regulatory matters. Confidential consultations with clear, practical guidance.
+              Get expert legal assistance for property, business, family, or criminal matters. Transparent pricing.
+              Confidential consultations. No delays.
             </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <ButtonLink href={waTalk} variant="primary" external>
-                Talk to lawyer
+              <ButtonLink href="/contact" variant="primary">
+                Talk to a lawyer now
               </ButtonLink>
               <ButtonLink href={waChat} variant="outline" external>
-                Chat with lawyer
+                Chat on WhatsApp
               </ButtonLink>
             </div>
-            <dl className="grid max-w-lg grid-cols-2 gap-4 text-sm text-muted sm:grid-cols-3">
-              <div className="rounded-xl border border-border/80 bg-surface/60 p-3">
-                <dt className="text-xs uppercase tracking-wide text-muted">Experts</dt>
-                <dd className="font-display text-xl font-semibold text-foreground">700+</dd>
-              </div>
-              <div className="rounded-xl border border-border/80 bg-surface/60 p-3">
-                <dt className="text-xs uppercase tracking-wide text-muted">Cities</dt>
-                <dd className="font-display text-xl font-semibold text-foreground">100+</dd>
-              </div>
-              <div className="col-span-2 rounded-xl border border-border/80 bg-surface/60 p-3 sm:col-span-1">
-                <dt className="text-xs uppercase tracking-wide text-muted">Availability</dt>
-                <dd className="font-display text-xl font-semibold text-foreground">24/7</dd>
-              </div>
-            </dl>
+            <ul className="flex max-w-xl flex-wrap gap-x-5 gap-y-2 text-sm text-muted">
+              <li className="flex items-center gap-1.5">
+                <span className="font-semibold text-accent" aria-hidden>
+                  ✓
+                </span>
+                Verified Lawyers
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="font-semibold text-accent" aria-hidden>
+                  ✓
+                </span>
+                100% Confidential
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="font-semibold text-accent" aria-hidden>
+                  ✓
+                </span>
+                Quick Response
+              </li>
+            </ul>
           </div>
         </ScrollReveal>
 

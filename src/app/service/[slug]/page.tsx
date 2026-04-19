@@ -67,12 +67,12 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                 alt={page.title}
                 fill
                 priority
-                className="object-contain object-center"
+                className="object-cover object-center"
                 sizes="(min-width: 1024px) 55vw, 100vw"
               />
             </div>
             <div className="lg:sticky lg:top-24">
-              <ServiceLeadForm serviceTitle={page.title} />
+              <ServiceLeadForm serviceTitle={page.title} serviceSlug={slug} />
             </div>
           </div>
         </Container>
@@ -137,7 +137,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                     alt={`${person.name}, ${person.practice}`}
                     fill
                     sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
-                    className="object-contain object-top"
+                    className="object-cover object-top"
                   />
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-5">

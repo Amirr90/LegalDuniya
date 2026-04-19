@@ -36,7 +36,7 @@ export function TopServiceTiles({ section, muted = true }: TopServiceTilesProps)
                   alt={tile.title}
                   fill
                   sizes="(min-width: 1024px) 16vw, (min-width: 768px) 22vw, (min-width: 640px) 30vw, 45vw"
-                  className="object-contain object-center transition duration-300"
+                  className="object-cover object-center transition duration-300"
                 />
               </div>
               <div className="flex flex-1 flex-col items-center justify-center gap-1 px-3 py-4 text-center">

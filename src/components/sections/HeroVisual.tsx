@@ -21,7 +21,7 @@ export function HeroVisual({ heroImage }: HeroVisualProps) {
           height={900}
           priority
           sizes="(min-width: 1024px) 480px, 100vw"
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
         <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-border/60 bg-background/70 p-4 text-sm backdrop-blur">

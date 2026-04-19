@@ -1,3 +1,5 @@
+import { getMegaMenuServiceLeaves } from "./site";
+
 export type ServiceTile = {
   title: string;
   slug: string;
@@ -48,13 +50,13 @@ export const homeServiceSections: ServiceSectionSpec[] = [
       {
         title: "Arbitration",
         slug: "arbitration",
-        imageSrc: img("photo-1521791055364-18923bb5ded6"),
+        imageSrc: "/services/arbitration.jpg",
         tagline: "ADR and tribunals",
       },
       {
         title: "Court marriage",
         slug: "court-marriage",
-        imageSrc: img("photo-1519744346992-c43e31520a05"),
+        imageSrc: img("photo-1515934751635-c81c6bc9a2d8"),
         tagline: "Solemnisation and paperwork",
       },
       {
@@ -66,7 +68,7 @@ export const homeServiceSections: ServiceSectionSpec[] = [
       {
         title: "Supreme Court lawyers",
         slug: "supreme-court-lawyers",
-        imageSrc: img("photo-1589578527966-fdac0f445ed5"),
+        imageSrc: "/services/supreme-court-lawyers.jpg",
         tagline: "SLPs and appeals",
       },
       {
@@ -129,7 +131,7 @@ export const homeServiceSections: ServiceSectionSpec[] = [
       {
         title: "Anticipatory bail",
         slug: "anticipatory-bail",
-        imageSrc: img("photo-1541339903347-1a1a92bde5c8"),
+        imageSrc: img("photo-1582213782179-e0d53f98f2ca"),
         tagline: "Protective bail strategy",
       },
       {
@@ -159,7 +161,7 @@ export const homeServiceSections: ServiceSectionSpec[] = [
       {
         title: "International arbitration",
         slug: "international-arbitration",
-        imageSrc: img("photo-1522071820081-9091a26a3947"),
+        imageSrc: img("photo-1522202176988-66273c2fd55f"),
         tagline: "Institutional and ad hoc",
       },
       {
@@ -195,6 +197,29 @@ export const homeServiceSections: ServiceSectionSpec[] = [
     ],
   },
 ];
+
+export type ServiceNavLink = {
+  label: string;
+  href: string;
+};
+
+const comprehensiveSection =
+  homeServiceSections.find((s) => s.id === "top-services") ?? homeServiceSections[0];
+
+/** Header Services menu: links to each landing in the “Comprehensive legal solutions” grid. */
+export const comprehensiveLegalSolutionLinks: ServiceNavLink[] = comprehensiveSection.tiles.map(
+  (tile) => ({
+    label: tile.title,
+    href: `/service/${tile.slug}`,
+  }),
+);
+
+export const servicesCatalogHref = "/services";
+
+export const allServicesMenuItem: ServiceNavLink = {
+  label: "All",
+  href: servicesCatalogHref,
+};
 
 function buildServicePage(tile: ServiceTile): ServicePageContent {
   const label = tile.title;
@@ -240,7 +265,28 @@ function buildServicePage(tile: ServiceTile): ServicePageContent {
   };
 }
 
-const allTiles: ServiceTile[] = homeServiceSections.flatMap((s) => s.tiles);
+const megaMenuHeroImageIds = [
+  "photo-1450101499163-c8848c66ca85",
+  "photo-1486406146926-c627a92ad1ab",
+  "photo-1505664194779-8beaceb93744",
+  "photo-1554224155-6726b3ff858f",
+  "photo-1472099645785-5658abf4ff4e",
+  "photo-1556761175-5973dc0f32e7",
+] as const;
+
+function megaMenuServiceTilesFromSite(): ServiceTile[] {
+  const leaves = getMegaMenuServiceLeaves();
+  return leaves.map((leaf, index) => ({
+    title: leaf.title,
+    slug: leaf.slug,
+    imageSrc: img(megaMenuHeroImageIds[index % megaMenuHeroImageIds.length]!),
+  }));
+}
+
+const homeTiles: ServiceTile[] = homeServiceSections.flatMap((s) => s.tiles);
+const homeTileSlugs = new Set(homeTiles.map((t) => t.slug));
+const megaMenuTiles = megaMenuServiceTilesFromSite().filter((t) => !homeTileSlugs.has(t.slug));
+const allTiles: ServiceTile[] = [...homeTiles, ...megaMenuTiles];
 
 const servicePagesBySlug = new Map<string, ServicePageContent>(
   allTiles.map((tile) => [tile.slug, buildServicePage(tile)]),

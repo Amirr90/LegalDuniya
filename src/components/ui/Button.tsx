@@ -30,7 +30,7 @@ export function ButtonLink({
 
   if (external) {
     return (
-      <a href={href} className={styles} target="_blank" rel="noreferrer">
+      <a href={href} className={styles} target="_blank" rel="noopener noreferrer">
         {children}
       </a>
     );

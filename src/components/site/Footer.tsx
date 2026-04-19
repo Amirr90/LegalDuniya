@@ -11,6 +11,9 @@ const footerLinks = [
   { href: "/contact", label: "Contact" },
   { href: "/#top-services", label: "Services" },
   { href: "/#updates", label: "Legal news" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+  { href: "/cookies", label: "Cookies" },
 ] as const;
 
 export function Footer() {
@@ -55,7 +58,7 @@ export function Footer() {
             </li>
             <li>
               <span className="text-foreground">WhatsApp:</span>{" "}
-              <a href={waChat} className="hover:text-accent" target="_blank" rel="noreferrer">
+              <a href={waChat} className="hover:text-accent" target="_blank" rel="noopener noreferrer">
                 Chat with a lawyer
               </a>
             </li>
@@ -66,6 +69,7 @@ export function Footer() {
               </a>
             </li>
             <li>
+              <span className="text-foreground">Care:</span>{" "}
               <a href={`mailto:${contactChannels.emailCare}`} className="hover:text-accent">
                 {contactChannels.emailCare}
               </a>

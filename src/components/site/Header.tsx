@@ -1,17 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import {
+  allServicesMenuItem,
+  comprehensiveLegalSolutionLinks,
+} from "@/content/servicePages";
+import {
   businessIprMenu,
+  contactChannels,
   lawyerServicesMenu,
   navLinks,
   propertyServicesMenu,
   propertySuggestedLinks,
   serviceCategories,
+  whatsappPrefillChat,
 } from "@/content/site";
+import { whatsappUrl } from "@/lib/whatsapp";
+
+/** CTAs: WhatsApp for quick chat; `/contact` for structured intake (matches Hero). */
+const headerWaChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 const defaultBusinessSectionId = businessIprMenu[0]?.id ?? "";
 const defaultBusinessCategoryId = businessIprMenu[0]?.categories[0]?.id ?? "";
@@ -31,6 +42,44 @@ export function Header() {
   const [propertyActiveId, setPropertyActiveId] = useState(defaultPropertyCategoryId);
   const [mobilePropertyOpen, setMobilePropertyOpen] = useState(false);
   const [mobilePropertyCategoryId, setMobilePropertyCategoryId] = useState<string | null>(null);
+
+  type DesktopMenuKey = "services" | "business" | "lawyer" | "property";
+  const [desktopMenuOpen, setDesktopMenuOpen] = useState<DesktopMenuKey | null>(null);
+  const desktopCloseTimerRef = useRef<number | null>(null);
+
+  const cancelDesktopMenuClose = () => {
+    if (desktopCloseTimerRef.current != null) {
+      window.clearTimeout(desktopCloseTimerRef.current);
+      desktopCloseTimerRef.current = null;
+    }
+  };
+
+  const openDesktopMenu = (key: DesktopMenuKey) => {
+    cancelDesktopMenuClose();
+    setDesktopMenuOpen(key);
+  };
+
+  const scheduleDesktopMenuClose = () => {
+    cancelDesktopMenuClose();
+    desktopCloseTimerRef.current = window.setTimeout(() => setDesktopMenuOpen(null), 140) as unknown as number;
+  };
+
+  const closeDesktopMenuNow = useCallback(() => {
+    cancelDesktopMenuClose();
+    setDesktopMenuOpen(null);
+  }, []);
+
+  const pathname = usePathname();
+  useEffect(() => {
+    closeDesktopMenuNow();
+    setOpen(false);
+  }, [pathname, closeDesktopMenuNow]);
+
+  const blurCloseDesktopMenuIfLeaving = (event: FocusEvent<HTMLDivElement>) => {
+    const next = event.relatedTarget as Node | null;
+    if (next && event.currentTarget.contains(next)) return;
+    scheduleDesktopMenuClose();
+  };
 
   const activeLawyerCategory = useMemo(
     () => lawyerServicesMenu.find((c) => c.id === lawyerActiveId) ?? lawyerServicesMenu[0],
@@ -77,6 +126,15 @@ export function Header() {
     }
   }, [open]);
 
+  useEffect(() => {
+    return () => {
+      if (desktopCloseTimerRef.current != null) {
+        window.clearTimeout(desktopCloseTimerRef.current);
+        desktopCloseTimerRef.current = null;
+      }
+    };
+  }, []);
+
   return (
     <header
       className={`sticky top-0 z-40 border-b backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-500 ease-out ${
@@ -99,46 +157,89 @@ export function Header() {
               key={item.href}
               href={item.href}
               className="transition hover:text-foreground"
+              onClick={closeDesktopMenuNow}
             >
               {item.label}
             </Link>
           ))}
-          <div className="relative group">
+          <div
+            className="relative group"
+            onPointerEnter={() => openDesktopMenu("services")}
+            onPointerLeave={scheduleDesktopMenuClose}
+            onFocusCapture={() => openDesktopMenu("services")}
+            onBlurCapture={blurCloseDesktopMenuIfLeaving}
+          >
             <button
               type="button"
               className="inline-flex items-center gap-1 text-muted transition hover:text-foreground"
-              aria-expanded="false"
+              aria-expanded={desktopMenuOpen === "services"}
+              aria-haspopup="true"
+              aria-controls="nav-services-menu"
             >
               Services
               <span aria-hidden className="text-xs">
                 ▾
               </span>
             </button>
-            <div className="pointer-events-none absolute left-0 top-full z-50 mt-2 min-w-[220px] translate-y-1 rounded-xl border border-border bg-surface-elevated p-2 opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100">
+            <div
+              id="nav-services-menu"
+              className={`absolute left-0 top-full z-50 mt-2 min-w-[min(100vw-2rem,300px)] max-w-[min(100vw-2rem,320px)] rounded-xl border border-border bg-surface-elevated p-2 shadow-xl transition ${
+                desktopMenuOpen === "services"
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-1 opacity-0"
+              }`}
+            >
               {serviceCategories.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className="block rounded-lg px-3 py-2 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                  onClick={closeDesktopMenuNow}
                 >
                   {item.label}
                 </Link>
               ))}
+              <div className="my-2 border-t border-border" aria-hidden />
+              <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
+                Comprehensive legal solutions
+              </p>
+              <div className="max-h-[min(50vh,340px)] overflow-y-auto overscroll-contain">
+                {comprehensiveLegalSolutionLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block rounded-lg px-3 py-2 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-1 border-t border-border pt-1">
+                <Link
+                  href={allServicesMenuItem.href}
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 hover:bg-surface hover:text-accent"
+                >
+                  {allServicesMenuItem.label}
+                </Link>
+              </div>
             </div>
           </div>
 
           <div
             className="relative group"
-            onMouseLeave={() => {
+            onPointerEnter={() => openDesktopMenu("business")}
+            onPointerLeave={() => {
+              scheduleDesktopMenuClose();
               setBusinessSectionId(defaultBusinessSectionId);
               setBusinessCategoryId(defaultBusinessCategoryId);
             }}
+            onFocusCapture={() => openDesktopMenu("business")}
           >
             <button
               type="button"
               className="inline-flex items-center gap-1 text-muted transition hover:text-foreground group-hover:text-foreground"
               aria-haspopup="true"
-              aria-expanded="false"
+              aria-expanded={desktopMenuOpen === "business"}
               aria-controls="business-ipr-mega"
             >
               Business & IPR
@@ -259,13 +360,18 @@ export function Header() {
 
           <div
             className="relative group"
-            onMouseLeave={() => setLawyerActiveId(lawyerServicesMenu[0]?.id ?? "")}
+            onPointerEnter={() => openDesktopMenu("lawyer")}
+            onPointerLeave={() => {
+              scheduleDesktopMenuClose();
+              setLawyerActiveId(lawyerServicesMenu[0]?.id ?? "");
+            }}
+            onFocusCapture={() => openDesktopMenu("lawyer")}
           >
             <button
               type="button"
               className="inline-flex items-center gap-1 text-muted transition hover:text-foreground group-hover:text-foreground"
               aria-haspopup="true"
-              aria-expanded="false"
+              aria-expanded={desktopMenuOpen === "lawyer"}
               aria-controls="lawyer-services-mega"
             >
               Lawyer services
@@ -348,13 +454,18 @@ export function Header() {
 
           <div
             className="relative group"
-            onMouseLeave={() => setPropertyActiveId(defaultPropertyCategoryId)}
+            onPointerEnter={() => openDesktopMenu("property")}
+            onPointerLeave={() => {
+              scheduleDesktopMenuClose();
+              setPropertyActiveId(defaultPropertyCategoryId);
+            }}
+            onFocusCapture={() => openDesktopMenu("property")}
           >
             <button
               type="button"
               className="inline-flex items-center gap-1 text-muted transition hover:text-foreground group-hover:text-foreground"
               aria-haspopup="true"
-              aria-expanded="false"
+              aria-expanded={desktopMenuOpen === "property"}
               aria-controls="property-services-mega"
             >
               Property
@@ -454,7 +565,7 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <ButtonLink href="/contact" variant="outline" className="px-4 py-2 text-xs sm:text-sm">
+          <ButtonLink href={headerWaChat} variant="outline" external className="px-4 py-2 text-xs sm:text-sm">
             Chat with lawyer
           </ButtonLink>
           <ButtonLink href="/contact" variant="primary" className="px-4 py-2 text-xs sm:text-sm">
@@ -502,6 +613,26 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <p className="px-2 pt-2 text-xs font-semibold uppercase tracking-wide text-muted">
+              Comprehensive legal solutions
+            </p>
+            {comprehensiveLegalSolutionLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-2 py-2 text-sm text-muted hover:bg-surface hover:text-foreground"
+                onClick={() => setOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link
+              href={allServicesMenuItem.href}
+              className="rounded-lg px-2 py-2 text-sm font-medium text-foreground hover:bg-surface hover:text-accent"
+              onClick={() => setOpen(false)}
+            >
+              {allServicesMenuItem.label}
+            </Link>
 
             <div className="border-t border-border pt-3">
               <button
@@ -766,13 +897,15 @@ export function Header() {
             </div>
 
             <div className="mt-2 flex flex-col gap-2">
-              <Link
-                href="/contact"
+              <a
+                href={headerWaChat}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-foreground hover:border-accent/60 hover:text-accent"
                 onClick={() => setOpen(false)}
               >
                 Chat with lawyer
-              </Link>
+              </a>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground hover:bg-accent/90"
@@ -784,6 +917,3 @@ export function Header() {
           </Container>
         </div>
       ) : null}
-    </header>
-  );
-}

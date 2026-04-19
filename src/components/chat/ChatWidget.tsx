@@ -209,8 +209,12 @@ export function ChatWidget() {
                 Contact
               </a>{" "}
               for a lawyer.{" "}
-              <a href={waChat} className="text-accent underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+              <a href={waChat} className="text-accent underline-offset-2 hover:underline" target="_blank" rel="noopener noreferrer">
                 Prefer WhatsApp?
+              </a>{" "}
+              ·{" "}
+              <a href="/privacy" className="text-accent underline-offset-2 hover:underline">
+                Privacy
               </a>
             </p>
           </div>

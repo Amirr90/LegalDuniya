@@ -14,6 +14,9 @@ export function Testimonials() {
             <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
               What clients say about LexBridge
             </h2>
+            <p className="mt-3 text-xs text-muted">
+              Illustrative stories for demonstration; not endorsements or typical results.
+            </p>
           </div>
         </ScrollReveal>
 

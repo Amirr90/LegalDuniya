@@ -1,3 +1,9 @@
+/** Production: set `NEXT_PUBLIC_*` in `.env` — see repository `.env.example`. */
+function publicEnv(key: string, fallback: string): string {
+  const v = typeof process !== "undefined" ? process.env[key] : undefined;
+  return typeof v === "string" && v.trim() ? v.trim() : fallback;
+}
+
 export type Advocate = {
   name: string;
   practice: string;
@@ -7,7 +13,6 @@ export type Advocate = {
 export type LegalUpdate = {
   title: string;
   date: string;
-  href: string;
 };
 
 export type Testimonial = {
@@ -48,37 +53,37 @@ export type LawyerServicesCategory = {
   items: LawyerServicesLink[];
 };
 
-/** Vakilsearch-style Lawyer Services tree; links go to contact until dedicated pages exist. */
+/** Vakilsearch-style Lawyer Services tree; leaf links open `/service/[slug]` landings. */
 export const lawyerServicesMenu: LawyerServicesCategory[] = [
   {
     id: "specialization",
-    label: "Lawyers specialization",
+    label: "Lawyer specializations",
     items: [
-      { label: "Finance lawyers", href: "/contact?topic=finance-lawyers" },
-      { label: "Cheque bounce lawyers", href: "/contact?topic=cheque-bounce-lawyers" },
-      { label: "Child custody lawyers", href: "/contact?topic=child-custody-lawyers" },
-      { label: "Civil lawyers", href: "/contact?topic=civil-lawyers" },
-      { label: "Consumer protection lawyers", href: "/contact?topic=consumer-protection-lawyers" },
-      { label: "Contract lawyers", href: "/contact?topic=contract-lawyers" },
-      { label: "Corporate lawyers", href: "/contact?topic=corporate-lawyers" },
-      { label: "Criminal lawyers", href: "/contact?topic=criminal-lawyers" },
-      { label: "Cyber crime lawyers", href: "/contact?topic=cyber-crime-lawyers" },
-      { label: "Property lawyers", href: "/contact?topic=property-lawyers" },
-      { label: "Divorce lawyers", href: "/contact?topic=divorce-lawyers" },
-      { label: "Family lawyers", href: "/contact?topic=family-lawyers" },
-      { label: "GST lawyers", href: "/contact?topic=gst-lawyers" },
-      { label: "Intellectual property lawyers", href: "/contact?topic=ip-lawyers" },
-      { label: "Labour lawyers", href: "/contact?topic=labour-lawyers" },
-      { label: "Money recovery lawyers", href: "/contact?topic=money-recovery-lawyers" },
-      { label: "Motor accident lawyers", href: "/contact?topic=motor-accident-lawyers" },
-      { label: "Muslim law lawyers", href: "/contact?topic=muslim-law-lawyers" },
+      { label: "Finance lawyers", href: "/service/finance-lawyers" },
+      { label: "Cheque bounce lawyers", href: "/service/cheque-bounce-lawyers" },
+      { label: "Child custody lawyers", href: "/service/child-custody-lawyers" },
+      { label: "Civil lawyers", href: "/service/civil-lawyers" },
+      { label: "Consumer protection lawyers", href: "/service/consumer-protection-lawyers" },
+      { label: "Contract lawyers", href: "/service/contract-lawyers" },
+      { label: "Corporate lawyers", href: "/service/corporate-lawyers" },
+      { label: "Criminal lawyers", href: "/service/criminal-lawyers" },
+      { label: "Cyber crime lawyers", href: "/service/cyber-crime-lawyers" },
+      { label: "Property lawyers", href: "/service/property-lawyers" },
+      { label: "Divorce lawyers", href: "/service/divorce-lawyers" },
+      { label: "Family lawyers", href: "/service/family-lawyers" },
+      { label: "GST lawyers", href: "/service/gst-lawyers" },
+      { label: "Intellectual property lawyers", href: "/service/ip-lawyers" },
+      { label: "Labour lawyers", href: "/service/labour-lawyers" },
+      { label: "Money recovery lawyers", href: "/service/money-recovery-lawyers" },
+      { label: "Motor accident lawyers", href: "/service/motor-accident-lawyers" },
+      { label: "Muslim law lawyers", href: "/service/muslim-law-lawyers" },
       {
         label: "Technology, media and telecom (TMT)",
-        href: "/contact?topic=tmt-lawyers",
+        href: "/service/tmt-lawyers",
       },
       {
         label: "Risk management and regulatory",
-        href: "/contact?topic=risk-regulatory-lawyers",
+        href: "/service/risk-regulatory-lawyers",
       },
     ],
   },
@@ -86,60 +91,60 @@ export const lawyerServicesMenu: LawyerServicesCategory[] = [
     id: "legal-notice",
     label: "Legal notice",
     items: [
-      { label: "Legal notice for money recovery", href: "/contact?topic=notice-money-recovery" },
-      { label: "Legal notice recovery of dues", href: "/contact?topic=notice-recovery-dues" },
+      { label: "Legal notice for money recovery", href: "/service/notice-money-recovery" },
+      { label: "Legal notice recovery of dues", href: "/service/notice-recovery-dues" },
       {
         label: "Legal notice under Consumer Protection Act",
-        href: "/contact?topic=notice-consumer-act",
+        href: "/service/notice-consumer-act",
       },
-      { label: "Cheque bounce notice", href: "/contact?topic=notice-cheque-bounce" },
-      { label: "Reply to ITR notice", href: "/contact?topic=notice-reply-itr" },
-      { label: "Caveat petition", href: "/contact?topic=caveat-petition" },
-      { label: "Tenant rental notice", href: "/contact?topic=tenant-rental-notice" },
+      { label: "Cheque bounce notice", href: "/service/notice-cheque-bounce" },
+      { label: "Reply to ITR notice", href: "/service/notice-reply-itr" },
+      { label: "Caveat petition", href: "/service/caveat-petition" },
+      { label: "Tenant rental notice", href: "/service/tenant-rental-notice" },
     ],
   },
   {
     id: "litigation",
     label: "Litigation",
     items: [
-      { label: "Defamation complaint", href: "/contact?topic=litigation-defamation" },
-      { label: "Intellectual property infringement", href: "/contact?topic=litigation-ip" },
-      { label: "Employment dispute litigation", href: "/contact?topic=litigation-employment" },
-      { label: "Contract dispute litigation", href: "/contact?topic=litigation-contract" },
-      { label: "Cheque bounce complaint", href: "/contact?topic=litigation-cheque-bounce" },
-      { label: "Property litigation", href: "/contact?topic=litigation-property" },
-      { label: "Cyber crime litigation", href: "/contact?topic=litigation-cyber-crime" },
-      { label: "Mutual divorce", href: "/contact?topic=litigation-mutual-divorce" },
-      { label: "Contested divorce", href: "/contact?topic=litigation-contested-divorce" },
+      { label: "Defamation complaint", href: "/service/litigation-defamation" },
+      { label: "Intellectual property infringement", href: "/service/litigation-ip" },
+      { label: "Employment dispute litigation", href: "/service/litigation-employment" },
+      { label: "Contract dispute litigation", href: "/service/litigation-contract" },
+      { label: "Cheque bounce complaint", href: "/service/litigation-cheque-bounce" },
+      { label: "Property litigation", href: "/service/litigation-property" },
+      { label: "Cyber crime litigation", href: "/service/litigation-cyber-crime" },
+      { label: "Mutual divorce", href: "/service/litigation-mutual-divorce" },
+      { label: "Contested divorce", href: "/service/litigation-contested-divorce" },
       {
         label: "Restitution of conjugal rights",
-        href: "/contact?topic=litigation-restitution-conjugal",
+        href: "/service/litigation-restitution-conjugal",
       },
-      { label: "POSH compliance", href: "/contact?topic=litigation-posh" },
-      { label: "RERA complaint", href: "/contact?topic=litigation-rera" },
-      { label: "US litigation service", href: "/contact?topic=litigation-us" },
+      { label: "POSH compliance", href: "/service/litigation-posh" },
+      { label: "RERA complaint", href: "/service/litigation-rera" },
+      { label: "US litigation service", href: "/service/litigation-us" },
     ],
   },
   {
     id: "consumer-complaint",
     label: "Consumer complaint",
     items: [
-      { label: "Automobile", href: "/contact?topic=consumer-automobile" },
-      { label: "Bank", href: "/contact?topic=consumer-bank" },
-      { label: "Courier and logistics", href: "/contact?topic=consumer-courier" },
-      { label: "E-commerce", href: "/contact?topic=consumer-ecommerce" },
-      { label: "Education", href: "/contact?topic=consumer-education" },
-      { label: "Grievances", href: "/contact?topic=consumer-grievances" },
-      { label: "Home appliances", href: "/contact?topic=consumer-home-appliances" },
-      { label: "Hotels", href: "/contact?topic=consumer-hotels" },
-      { label: "IT companies", href: "/contact?topic=consumer-it" },
-      { label: "Insurance", href: "/contact?topic=consumer-insurance" },
-      { label: "Investments", href: "/contact?topic=consumer-investments" },
-      { label: "Medical", href: "/contact?topic=consumer-medical" },
-      { label: "Real estate", href: "/contact?topic=consumer-real-estate" },
-      { label: "Retail business", href: "/contact?topic=consumer-retail" },
-      { label: "Streaming platforms", href: "/contact?topic=consumer-streaming" },
-      { label: "Travel", href: "/contact?topic=consumer-travel" },
+      { label: "Automobile", href: "/service/consumer-automobile" },
+      { label: "Bank", href: "/service/consumer-bank" },
+      { label: "Courier and logistics", href: "/service/consumer-courier" },
+      { label: "E-commerce", href: "/service/consumer-ecommerce" },
+      { label: "Education", href: "/service/consumer-education" },
+      { label: "Grievances", href: "/service/consumer-grievances" },
+      { label: "Home appliances", href: "/service/consumer-home-appliances" },
+      { label: "Hotels", href: "/service/consumer-hotels" },
+      { label: "IT companies", href: "/service/consumer-it" },
+      { label: "Insurance", href: "/service/consumer-insurance" },
+      { label: "Investments", href: "/service/consumer-investments" },
+      { label: "Medical", href: "/service/consumer-medical" },
+      { label: "Real estate", href: "/service/consumer-real-estate" },
+      { label: "Retail business", href: "/service/consumer-retail" },
+      { label: "Streaming platforms", href: "/service/consumer-streaming" },
+      { label: "Travel", href: "/service/consumer-travel" },
     ],
   },
 ];
@@ -148,52 +153,52 @@ export type PropertySuggestedLink = LawyerServicesLink & {
   ariaLabel: string;
 };
 
-/** Two shortcuts with visible label "Property"; distinct hrefs and aria-labels for accessibility. */
+/** Two shortcuts; distinct visible labels and hrefs. */
 export const propertySuggestedLinks: PropertySuggestedLink[] = [
   {
-    label: "Property",
-    href: "/contact?topic=property-suggested-verification",
+    label: "Property — verification",
+    href: "/service/property-suggested-verification",
     ariaLabel: "Property — verification",
   },
   {
-    label: "Property",
-    href: "/contact?topic=property-suggested-services",
+    label: "Property — services",
+    href: "/service/property-suggested-services",
     ariaLabel: "Property — services",
   },
 ];
 
-/** Property mega menu; links go to contact until dedicated pages exist. */
+/** Property mega menu; leaf links open `/service/[slug]` landings. */
 export const propertyServicesMenu: LawyerServicesCategory[] = [
   {
     id: "property-verification",
     label: "Property verification",
     items: [
-      { label: "Title verification", href: "/contact?topic=property-verify-title" },
-      { label: "Encumbrance certificate (EC) review", href: "/contact?topic=property-verify-ec" },
-      { label: "Chain of title analysis", href: "/contact?topic=property-verify-chain" },
-      { label: "Property document verification", href: "/contact?topic=property-verify-docs" },
+      { label: "Title verification", href: "/service/property-verify-title" },
+      { label: "Encumbrance certificate (EC) review", href: "/service/property-verify-ec" },
+      { label: "Chain of title analysis", href: "/service/property-verify-chain" },
+      { label: "Property document verification", href: "/service/property-verify-docs" },
     ],
   },
   {
     id: "property-services",
     label: "Property services",
     items: [
-      { label: "Property registration assistance", href: "/contact?topic=property-service-registration" },
-      { label: "Encumbrance certificate obtain", href: "/contact?topic=property-service-ec-obtain" },
-      { label: "Khata / mutation support", href: "/contact?topic=property-service-khata-mutation" },
-      { label: "Valuation coordination", href: "/contact?topic=property-service-valuation" },
+      { label: "Property registration assistance", href: "/service/property-service-registration" },
+      { label: "Obtain encumbrance certificate", href: "/service/property-service-ec-obtain" },
+      { label: "Khata / mutation support", href: "/service/property-service-khata-mutation" },
+      { label: "Valuation coordination", href: "/service/property-service-valuation" },
     ],
   },
   {
     id: "property-legal",
     label: "Property legal services",
     items: [
-      { label: "Title search and due diligence", href: "/contact?topic=property-legal-title-diligence" },
-      { label: "Sale deed drafting and review", href: "/contact?topic=property-legal-sale-deed" },
-      { label: "Gift deed and partition deed", href: "/contact?topic=property-legal-gift-partition" },
-      { label: "RERA complaints and builder disputes", href: "/contact?topic=property-legal-rera" },
-      { label: "Lease and rental agreements", href: "/contact?topic=property-legal-lease" },
-      { label: "Mutation and khata assistance", href: "/contact?topic=property-legal-mutation-khata" },
+      { label: "Title search and due diligence", href: "/service/property-legal-title-diligence" },
+      { label: "Sale deed drafting and review", href: "/service/property-legal-sale-deed" },
+      { label: "Gift deed and partition deed", href: "/service/property-legal-gift-partition" },
+      { label: "RERA complaints and builder disputes", href: "/service/property-legal-rera" },
+      { label: "Lease and rental agreements", href: "/service/property-legal-lease" },
+      { label: "Mutation and khata assistance", href: "/service/property-legal-mutation-khata" },
     ],
   },
 ];
@@ -210,44 +215,82 @@ export type BusinessIprSection = {
   categories: BusinessIprCategory[];
 };
 
-/** Business & IPR mega menu; StartUp section mirrors LegalKart startup tree; links go to contact until dedicated pages exist. */
+/** Business & IPR mega menu; StartUp section mirrors LegalKart startup tree; leaf links open `/service/[slug]` landings. */
 export const businessIprMenu: BusinessIprSection[] = [
   {
     id: "startup",
-    label: "StartUp",
+    label: "Startup",
     categories: [
       {
         id: "company-formation",
         label: "Company Formation",
         items: [
-          { label: "Partnership Firm", href: "/contact?topic=startup-partnership-firm" },
-          { label: "Private Limited Company", href: "/contact?topic=startup-private-limited" },
-          { label: "One Person Company", href: "/contact?topic=startup-opc" },
-          { label: "Limited Liability Partnership", href: "/contact?topic=startup-llp" },
+          { label: "Partnership Firm", href: "/service/startup-partnership-firm" },
+          { label: "Private Limited Company", href: "/service/startup-private-limited" },
+          { label: "One Person Company", href: "/service/startup-opc" },
+          { label: "Limited Liability Partnership", href: "/service/startup-llp" },
         ],
       },
       {
         id: "intellectual-property",
         label: "Intellectual Property",
         items: [
-          { label: "Copyright", href: "/contact?topic=startup-copyright" },
-          { label: "Respond to Tm Objections", href: "/contact?topic=startup-tm-objections" },
-          { label: "Patent", href: "/contact?topic=startup-patent" },
-          { label: "Trademark", href: "/contact?topic=startup-trademark" },
+          { label: "Copyright", href: "/service/startup-copyright" },
+          { label: "Respond to trademark objections", href: "/service/startup-tm-objections" },
+          { label: "Patent", href: "/service/startup-patent" },
+          { label: "Trademark", href: "/service/startup-trademark" },
         ],
       },
       {
         id: "registrations-licenses",
         label: "Registrations & Licenses",
         items: [
-          { label: "Gst Registration", href: "/contact?topic=startup-gst-registration" },
-          { label: "Annual Gst Return Filing", href: "/contact?topic=startup-annual-gst-return" },
-          { label: "Export Import Code", href: "/contact?topic=startup-export-import-code" },
+          { label: "GST registration", href: "/service/startup-gst-registration" },
+          { label: "Annual GST return filing", href: "/service/startup-annual-gst-return" },
+          { label: "Export Import Code", href: "/service/startup-export-import-code" },
         ],
       },
     ],
   },
 ];
+
+const SERVICE_PATH_PREFIX = "/service/";
+
+function slugFromServiceHref(href: string): string | null {
+  if (!href.startsWith(SERVICE_PATH_PREFIX)) return null;
+  const slug = href.slice(SERVICE_PATH_PREFIX.length).split("?")[0]?.trim() ?? "";
+  return slug.length ? slug : null;
+}
+
+/** Unique leaf entries from mega menus for service page registration (slug + display title). */
+export function getMegaMenuServiceLeaves(): { title: string; slug: string }[] {
+  const seen = new Set<string>();
+  const out: { title: string; slug: string }[] = [];
+
+  const push = (title: string, href: string) => {
+    const slug = slugFromServiceHref(href);
+    if (!slug || seen.has(slug)) return;
+    seen.add(slug);
+    out.push({ title, slug });
+  };
+
+  for (const sec of businessIprMenu) {
+    for (const cat of sec.categories) {
+      for (const item of cat.items) push(item.label, item.href);
+    }
+  }
+  for (const cat of lawyerServicesMenu) {
+    for (const item of cat.items) push(item.label, item.href);
+  }
+  for (const cat of propertyServicesMenu) {
+    for (const item of cat.items) push(item.label, item.href);
+  }
+  for (const item of propertySuggestedLinks) {
+    push(item.label, item.href);
+  }
+
+  return out;
+}
 
 export const advocates: Advocate[] = [
   {
@@ -263,7 +306,7 @@ export const advocates: Advocate[] = [
       "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=640&q=80",
   },
   {
-    name: "Yanina V.",
+    name: "Adv. Yanina V.",
     practice: "International arbitration",
     imageSrc:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=640&q=80",
@@ -280,17 +323,14 @@ export const legalUpdates: LegalUpdate[] = [
   {
     title: "India–EU FTA: what changed for cross-border services contracts",
     date: "2 Feb 2026",
-    href: "#updates",
   },
   {
     title: "Supreme Court signals tighter guidelines on wrongful conviction compensation",
     date: "3 Nov 2025",
-    href: "#updates",
   },
   {
     title: "Matrimonial courts caution against indiscriminate family-wide allegations",
     date: "24 Oct 2025",
-    href: "#updates",
   },
 ];
 
@@ -344,12 +384,12 @@ export const clientLogos = [
 ] as const;
 
 export const contactChannels = {
-  phone: "+91 74993 83674",
-  /** WhatsApp Business number, digits only (e.g. India 919876543210). Replace with your real number. */
-  whatsappE164: "919876543210",
-  emailInfo: "info@example.com",
-  emailCare: "care@example.com",
-} as const;
+  phone: publicEnv("NEXT_PUBLIC_CONTACT_PHONE", "+91 74993 83674"),
+  /** WhatsApp Business number, digits only (e.g. India 919876543210). */
+  whatsappE164: publicEnv("NEXT_PUBLIC_WHATSAPP_E164", "919876543210"),
+  emailInfo: publicEnv("NEXT_PUBLIC_EMAIL_INFO", "info@example.com"),
+  emailCare: publicEnv("NEXT_PUBLIC_EMAIL_CARE", "care@example.com"),
+};
 
 /** Prefilled message when user taps “Chat with lawyer”. */
 export const whatsappPrefillChat =
@@ -358,3 +398,8 @@ export const whatsappPrefillChat =
 /** Prefilled message when user taps “Talk to lawyer”. */
 export const whatsappPrefillTalk =
   "Hello, I would like to speak with a lawyer. Please suggest a time for a call or voice consultation.";
+
+/** Prefilled WhatsApp message from a service landing page. */
+export function whatsappPrefillForService(serviceTitle: string, slug: string): string {
+  return `Hello, I would like to speak with a lawyer about: ${serviceTitle} (service: ${slug}). Please advise on next steps.`;
+}

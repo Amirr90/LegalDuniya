@@ -2,14 +2,24 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { getContactTopicLabel } from "@/content/contactTopics";
 import { contactChannels, offices } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact LexBridge",
-  description: "Reach LexBridge by phone, email, or the contact form for demo inquiries and partnership questions.",
+  description:
+    "Reach LexBridge by phone, email, or the contact form for consultations and intake. We respond to time-sensitive criminal and cyber matters quickly.",
 };
 
-export default function ContactPage() {
+type PageProps = {
+  searchParams: Promise<{ topic?: string }>;
+};
+
+export default async function ContactPage({ searchParams }: PageProps) {
+  const { topic: topicRaw } = await searchParams;
+  const topic = topicRaw?.trim() || undefined;
+  const topicLabel = topic ? getContactTopicLabel(topic) : "";
+
   return (
     <div className="border-b border-border bg-gradient-to-b from-background to-surface py-16 sm:py-20">
       <Container>
@@ -18,6 +28,12 @@ export default function ContactPage() {
             <div className="space-y-6">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Contact</p>
               <h1 className="font-display text-4xl font-semibold text-foreground sm:text-5xl">Let&apos;s talk</h1>
+              {topic ? (
+                <p className="rounded-xl border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-foreground">
+                  You&apos;re contacting us about:{" "}
+                  <span className="font-semibold">{topicLabel || topic}</span>
+                </p>
+              ) : null}
               <p className="text-muted">
                 Share a short summary of your matter and preferred contact window. For emergencies, call the
                 number below—our intake desk will prioritize time-sensitive criminal and cyber incidents.
@@ -43,6 +59,7 @@ export default function ContactPage() {
                       </a>
                     </div>
                     <div>
+                      <span className="text-muted">Care: </span>
                       <a href={`mailto:${contactChannels.emailCare}`} className="hover:text-accent">
                         {contactChannels.emailCare}
                       </a>
@@ -70,7 +87,7 @@ export default function ContactPage() {
           </ScrollReveal>
 
           <ScrollReveal delayMs={100} rootMargin="12% 0px -10% 0px">
-            <ContactForm />
+            <ContactForm initialTopic={topic} />
           </ScrollReveal>
         </div>
       </Container>

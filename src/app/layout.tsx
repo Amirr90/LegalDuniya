@@ -4,6 +4,8 @@ import "./globals.css";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
+import { JsonLd } from "@/components/site/JsonLd";
+import { getSiteUrl } from "@/lib/siteUrl";
 
 const crimson = Crimson_Pro({
   subsets: ["latin"],
@@ -20,6 +22,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: getSiteUrl(),
   title: {
     default: "LexBridge | Talk to verified lawyers",
     template: "%s | LexBridge",
@@ -31,6 +34,12 @@ export const metadata: Metadata = {
     description:
       "Verified advocates for legal work across India—confidential consultations and practical guidance.",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LexBridge | Talk to verified lawyers",
+    description:
+      "Verified advocates for legal work across India—confidential consultations and practical guidance.",
   },
 };
 
@@ -45,6 +54,7 @@ export default function RootLayout({
       className={`${crimson.variable} ${dmSans.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
+        <JsonLd />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
