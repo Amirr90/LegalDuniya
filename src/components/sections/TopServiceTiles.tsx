@@ -1,5 +1,5 @@
-import type { ServiceSectionSpec } from "@/content/servicePages";
 import { ServiceCatalogCard } from "@/components/service/ServiceCatalogCard";
+import type { ServiceSectionSpec } from "@/content/servicePages";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Section } from "@/components/ui/Section";
@@ -22,13 +22,9 @@ export function TopServiceTiles({ section, muted = true }: TopServiceTilesProps)
           </div>
         </ScrollReveal>
 
-        <StaggerReveal className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-5">
+        <StaggerReveal className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {section.tiles.map((tile) => (
-            <ServiceCatalogCard
-              key={tile.slug}
-              tile={tile}
-              imageSizes="(min-width: 1024px) 16vw, (min-width: 768px) 22vw, (min-width: 640px) 30vw, 45vw"
-            />
+            <ServiceCatalogCard key={tile.slug} tile={tile} />
           ))}
         </StaggerReveal>
       </Container>
