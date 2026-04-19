@@ -345,6 +345,16 @@ export const clientLogos = [
 
 export const contactChannels = {
   phone: "+91 74993 83674",
+  /** WhatsApp Business number, digits only (e.g. India 919876543210). Replace with your real number. */
+  whatsappE164: "919876543210",
   emailInfo: "info@example.com",
   emailCare: "care@example.com",
 } as const;
+
+/** Prefilled message when user taps “Chat with lawyer”. */
+export const whatsappPrefillChat =
+  "Hello, I would like to chat with a lawyer about my legal matter. Please let me know how to proceed.";
+
+/** Prefilled message when user taps “Talk to lawyer”. */
+export const whatsappPrefillTalk =
+  "Hello, I would like to speak with a lawyer. Please suggest a time for a call or voice consultation.";

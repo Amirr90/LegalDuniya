@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { contactChannels, offices } from "@/content/site";
+import { contactChannels, offices, whatsappPrefillChat } from "@/content/site";
+import { whatsappUrl } from "@/lib/whatsapp";
+
+const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 const footerLinks = [
   { href: "/", label: "Home" },
@@ -48,6 +51,12 @@ export function Footer() {
               <span className="text-foreground">Phone:</span>{" "}
               <a href={`tel:${contactChannels.phone.replace(/\s/g, "")}`} className="hover:text-accent">
                 {contactChannels.phone}
+              </a>
+            </li>
+            <li>
+              <span className="text-foreground">WhatsApp:</span>{" "}
+              <a href={waChat} className="hover:text-accent" target="_blank" rel="noreferrer">
+                Chat with a lawyer
               </a>
             </li>
             <li>

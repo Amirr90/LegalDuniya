@@ -25,11 +25,11 @@ export const metadata: Metadata = {
     template: "%s | LexBridge",
   },
   description:
-    "Connect with verified legal experts across India. Chat or call for confidential guidance—divorce, property, corporate, criminal, and more.",
+    "LexBridge connects you with verified advocates for real legal work—diligence, disputes, compliance, and counsel across India. Confidential chat or call intake.",
   openGraph: {
     title: "LexBridge | Talk to verified lawyers",
     description:
-      "Connect with verified legal experts across India. Chat or call for confidential guidance.",
+      "Verified advocates for legal work across India—confidential consultations and practical guidance.",
     type: "website",
   },
 };

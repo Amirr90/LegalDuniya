@@ -67,7 +67,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                 alt={page.title}
                 fill
                 priority
-                className="object-cover"
+                className="object-contain object-center"
                 sizes="(min-width: 1024px) 55vw, 100vw"
               />
             </div>
@@ -129,7 +129,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
             {advocates.map((person) => (
               <li
                 key={person.name}
-                className="flex flex-col overflow-hidden rounded-2xl border border-border bg-background/40"
+                className="card-interactive flex flex-col overflow-hidden rounded-2xl border border-border bg-background/40 hover:-translate-y-1 hover:border-accent/45"
               >
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-elevated">
                   <Image
@@ -137,7 +137,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                     alt={`${person.name}, ${person.practice}`}
                     fill
                     sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
+                    className="object-contain object-top"
                   />
                 </div>
                 <div className="flex flex-1 flex-col gap-2 p-5">

@@ -35,7 +35,7 @@ export function AdvocatesShowcase() {
           {advocates.map((person) => (
             <article
               key={person.name}
-              className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface"
+              className="card-interactive flex flex-col overflow-hidden rounded-2xl border border-border bg-surface hover:-translate-y-1 hover:border-accent/45"
             >
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-elevated">
                 <Image
@@ -43,7 +43,7 @@ export function AdvocatesShowcase() {
                   alt={`${person.name}, ${person.practice}`}
                   fill
                   sizes="(min-width: 1024px) 240px, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover"
+                  className="object-contain object-top"
                 />
               </div>
               <div className="flex flex-1 flex-col gap-3 p-5">

@@ -2,7 +2,10 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
-import { contactChannels, offices } from "@/content/site";
+import { contactChannels, offices, whatsappPrefillChat } from "@/content/site";
+import { whatsappUrl } from "@/lib/whatsapp";
+
+const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 export function ContactStrip() {
   return (
@@ -21,6 +24,9 @@ export function ContactStrip() {
               <ButtonLink href={`tel:${contactChannels.phone.replace(/\s/g, "")}`} variant="primary" external>
                 Call now
               </ButtonLink>
+              <ButtonLink href={waChat} variant="outline" external>
+                WhatsApp us
+              </ButtonLink>
               <ButtonLink href={`mailto:${contactChannels.emailInfo}`} variant="outline" external>
                 Email us
               </ButtonLink>
@@ -30,7 +36,10 @@ export function ContactStrip() {
 
         <StaggerReveal className="grid gap-4 sm:grid-cols-2">
           {offices.map((office) => (
-            <div key={office.label} className="rounded-2xl border border-border bg-surface-elevated/60 p-4">
+            <div
+              key={office.label}
+              className="card-interactive rounded-2xl border border-border bg-surface-elevated/60 p-4 hover:-translate-y-1 hover:border-accent/40"
+            >
               <div className="text-xs font-semibold uppercase tracking-wide text-accent">{office.label}</div>
               <div className="mt-2 text-sm text-muted">
                 {office.lines.map((line) => (

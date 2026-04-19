@@ -11,6 +11,10 @@
   --accent: #d4af37;
   --accent-foreground: #0a0c10;
   --ring: #d4af37;
+  /* Legal / trust secondary wash (slate-blue), pairs with gold accent */
+  --glow: #4a6fa5;
+  --glow-soft: rgba(74, 111, 165, 0.22);
+  --accent-soft: rgba(212, 175, 55, 0.14);
 }
 
 @theme inline {
@@ -23,6 +27,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
+  --color-glow: var(--glow);
   --font-sans: var(--font-ui), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -115,6 +120,68 @@ body {
   transition-delay: 935ms;
 }
 
+@keyframes hero-aurora-shift {
+  0%,
+  100% {
+    background-position: 0% 40%, 100% 60%, 50% 0%;
+    opacity: 1;
+  }
+  50% {
+    background-position: 100% 50%, 0% 40%, 50% 100%;
+    opacity: 0.92;
+  }
+}
+
+@keyframes hero-grid-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-1.5%, 1%, 0);
+  }
+}
+
+/* Decorative hero layers — keep behind content (z-index in component) */
+.hero-backdrop-aurora {
+  position: absolute;
+  inset: -40% -20% 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 0%, var(--accent-soft), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 90% 5%, var(--glow-soft), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 50% 95%, rgba(74, 111, 165, 0.12), transparent 55%);
+  background-size: 160% 160%, 140% 140%, 130% 130%;
+  animation: hero-aurora-shift 22s ease-in-out infinite;
+}
+
+.hero-backdrop-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 85% 70% at 50% -10%, black 20%, transparent 75%);
+  animation: hero-grid-drift 28s ease-in-out infinite;
+}
+
+.card-interactive {
+  transition-property: transform, box-shadow, border-color, background-color;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-interactive:hover {
+  box-shadow:
+    0 18px 40px -16px rgba(0, 0, 0, 0.45),
+    0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scroll-reveal,
   .stagger-reveal > * {
@@ -123,4 +190,20 @@ body {
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
   }
+
+  .hero-backdrop-aurora,
+  .hero-backdrop-grid {
+    animation: none !important;
+  }
+
+  .hero-backdrop-aurora {
+    background-position: center;
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    opacity: 1;
+  }
+
+  .hero-backdrop-grid {
+    transform: none;
+  }
+
 }

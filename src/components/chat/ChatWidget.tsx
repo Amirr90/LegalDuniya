@@ -2,6 +2,10 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { CHATBOT_FAQ, CHATBOT_FALLBACK_ANSWER, matchChatbotFaq } from "@/content/chatbotFaq";
+import { contactChannels, whatsappPrefillChat } from "@/content/site";
+import { whatsappUrl } from "@/lib/whatsapp";
+
+const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 type ChatRole = "user" | "assistant";
 
@@ -204,7 +208,10 @@ export function ChatWidget() {
               <a href="/contact" className="text-accent underline-offset-2 hover:underline">
                 Contact
               </a>{" "}
-              for a lawyer.
+              for a lawyer.{" "}
+              <a href={waChat} className="text-accent underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                Prefer WhatsApp?
+              </a>
             </p>
           </div>
         </div>
