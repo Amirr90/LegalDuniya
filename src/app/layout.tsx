@@ -5,6 +5,7 @@ import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { JsonLd } from "@/components/site/JsonLd";
+import { layoutSiteMeta } from "@/content/pageCopy";
 import { getSiteUrl } from "@/lib/siteUrl";
 
 const crimson = Crimson_Pro({
@@ -23,24 +24,7 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
-  title: {
-    default: "LexBridge | Talk to verified lawyers",
-    template: "%s | LexBridge",
-  },
-  description:
-    "LexBridge connects you with verified advocates for real legal work—diligence, disputes, compliance, and counsel across India. Confidential chat or call intake.",
-  openGraph: {
-    title: "LexBridge | Talk to verified lawyers",
-    description:
-      "Verified advocates for legal work across India—confidential consultations and practical guidance.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "LexBridge | Talk to verified lawyers",
-    description:
-      "Verified advocates for legal work across India—confidential consultations and practical guidance.",
-  },
+  ...layoutSiteMeta,
 };
 
 export default function RootLayout({

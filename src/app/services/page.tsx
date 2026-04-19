@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceCatalogCard } from "@/components/service/ServiceCatalogCard";
 import { Container } from "@/components/ui/Container";
+import { servicesCatalogPage } from "@/content/pageCopy";
 import { homeServiceSections, servicesCatalogHref } from "@/content/servicePages";
 
-export const metadata: Metadata = {
-  title: "Service library",
-  description:
-    "Browse LexBridge practice areas by category—family, disputes, property, corporate, and more. Each service links to an overview and consult options.",
-};
+export const metadata: Metadata = servicesCatalogPage.metadata;
 
 export default function ServicesCatalogPage() {
   return (
@@ -19,10 +16,10 @@ export default function ServicesCatalogPage() {
             href="/"
             className="w-fit text-sm font-medium text-muted transition hover:text-accent"
           >
-            ← LexBridge
+            {servicesCatalogPage.backLinkLabel}
           </Link>
           <nav
-            aria-label="Jump to category"
+            aria-label={servicesCatalogPage.jumpNavAriaLabel}
             className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
           >
             {homeServiceSections.map((sec) => (
@@ -38,14 +35,11 @@ export default function ServicesCatalogPage() {
         </div>
 
         <header className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-glow">Service library</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-glow">{servicesCatalogPage.eyebrow}</p>
           <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Browse by category
+            {servicesCatalogPage.title}
           </h1>
-          <p className="mt-4 text-muted">
-            Every card opens a dedicated overview for that practice area. Explore by category, then reach
-            out for a confidential consult when you are ready.
-          </p>
+          <p className="mt-4 text-muted">{servicesCatalogPage.subtitle}</p>
         </header>
 
         <div className="mt-16 flex flex-col gap-20 sm:mt-20 sm:gap-24">
@@ -56,7 +50,10 @@ export default function ServicesCatalogPage() {
                   {section.title}
                 </h2>
                 <p className="text-sm text-muted">
-                  {section.tiles.length} {section.tiles.length === 1 ? "service" : "services"}
+                  {section.tiles.length}{" "}
+                  {section.tiles.length === 1
+                    ? servicesCatalogPage.serviceWord
+                    : servicesCatalogPage.servicesWord}
                 </p>
               </div>
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

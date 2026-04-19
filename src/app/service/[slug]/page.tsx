@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ServiceLeadForm } from "@/components/service/ServiceLeadForm";
 import { Container } from "@/components/ui/Container";
+import { advocatesShowcaseCopy, serviceLandingPage } from "@/content/pageCopy";
 import { getAllServiceSlugs, getServicePage } from "@/content/servicePages";
 import { advocates, contactChannels } from "@/content/site";
 
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const page = getServicePage(slug);
   if (!page) {
-    return { title: "Service" };
+    return { title: serviceLandingPage.metadataFallbackTitle };
   }
   return {
     title: page.title,
@@ -42,11 +43,11 @@ export default async function ServiceLandingPage({ params }: PageProps) {
         <Container>
           <nav className="text-xs text-muted">
             <Link href="/" className="hover:text-accent">
-              Home
+              {serviceLandingPage.breadcrumbHome}
             </Link>
             <span className="mx-2 text-border">/</span>
             <Link href="/#top-services" className="hover:text-accent">
-              Services
+              {serviceLandingPage.breadcrumbServices}
             </Link>
             <span className="mx-2 text-border">/</span>
             <span className="text-foreground/80">{page.title}</span>
@@ -90,15 +91,16 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                 </div>
               ))}
               <p className="rounded-xl border border-border bg-surface/60 px-4 py-3 text-xs leading-relaxed text-muted">
-                This page is for general information about how LexBridge triages {page.title.toLowerCase()} requests.
-                It is not legal advice. Consult a qualified advocate for your matter.
+                {serviceLandingPage.articleDisclaimer(page.title.toLowerCase())}
               </p>
             </article>
 
             <aside className="lg:sticky lg:top-24">
               <div className="rounded-2xl border border-border bg-[radial-gradient(120%_80%_at_20%_0%,rgba(212,175,55,0.14),var(--surface-elevated))] p-6 text-center">
-                <h3 className="font-display text-lg font-semibold text-foreground">Have any questions?</h3>
-                <p className="mt-2 text-sm text-muted">Call us today</p>
+                <h3 className="font-display text-lg font-semibold text-foreground">
+                  {serviceLandingPage.asideTitle}
+                </h3>
+                <p className="mt-2 text-sm text-muted">{serviceLandingPage.asideSubtitle}</p>
                 <a
                   href={`tel:${tel}`}
                   className="mt-4 block font-display text-2xl font-semibold tracking-tight text-accent hover:underline"
@@ -109,7 +111,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                   href="/contact"
                   className="mt-5 inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-xs font-semibold text-foreground transition hover:border-accent hover:text-accent"
                 >
-                  Full contact form
+                  {serviceLandingPage.contactFormLink}
                 </Link>
               </div>
             </aside>
@@ -120,10 +122,10 @@ export default async function ServiceLandingPage({ params }: PageProps) {
       <section className="border-t border-border bg-surface py-12 sm:py-16">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
-            <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">Top rated advocates</h2>
-            <p className="mt-3 text-sm text-muted sm:text-base">
-              A sample of practitioners on our network—each vetted for responsiveness and domain depth.
-            </p>
+            <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+              {serviceLandingPage.advocatesSectionTitle}
+            </h2>
+            <p className="mt-3 text-sm text-muted sm:text-base">{serviceLandingPage.advocatesSectionSubtitle}</p>
           </div>
           <ul className="mt-10 grid list-none grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {advocates.map((person) => (
@@ -147,7 +149,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
                     href="/contact"
                     className="mt-auto inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-xs font-semibold text-foreground transition hover:border-accent hover:text-accent"
                   >
-                    Ask a lawyer
+                    {advocatesShowcaseCopy.cardCta}
                   </Link>
                 </div>
               </li>

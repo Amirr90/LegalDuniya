@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
+import { clientLogosCopy } from "@/content/pageCopy";
 import { clientLogos } from "@/content/site";
 
 export function ClientLogos() {
@@ -9,7 +10,7 @@ export function ClientLogos() {
       <Container>
         <ScrollReveal>
           <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-            Trusted by teams at
+            {clientLogosCopy.eyebrow}
           </p>
         </ScrollReveal>
         <StaggerReveal className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 text-sm text-muted/90">

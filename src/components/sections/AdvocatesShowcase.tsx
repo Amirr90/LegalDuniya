@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Section } from "@/components/ui/Section";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
+import { advocatesShowcaseCopy } from "@/content/pageCopy";
 import { advocates } from "@/content/site";
 
 export function AdvocatesShowcase() {
@@ -13,20 +14,19 @@ export function AdvocatesShowcase() {
         <ScrollReveal>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Featured advocates</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-                Hire and consult experienced counsel
-              </h2>
-              <p className="mt-3 max-w-2xl text-muted">
-                A snapshot of senior practitioners on our roster—each vetted for credentials, responsiveness,
-                and domain depth.
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+                {advocatesShowcaseCopy.eyebrow}
               </p>
+              <h2 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+                {advocatesShowcaseCopy.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-muted">{advocatesShowcaseCopy.subtitle}</p>
             </div>
             <Link
               href="/contact"
               className="text-sm font-semibold text-accent underline-offset-4 hover:underline"
             >
-              View all advocates
+              {advocatesShowcaseCopy.viewAllLink}
             </Link>
           </div>
         </ScrollReveal>
@@ -55,7 +55,7 @@ export function AdvocatesShowcase() {
                   href="/contact"
                   className="mt-auto inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-xs font-semibold text-foreground transition hover:border-accent hover:text-accent"
                 >
-                  Ask a lawyer
+                  {advocatesShowcaseCopy.cardCta}
                 </Link>
               </div>
             </article>

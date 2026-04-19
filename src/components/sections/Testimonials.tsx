@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Section } from "@/components/ui/Section";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
+import { testimonialsCopy } from "@/content/pageCopy";
 import { testimonials } from "@/content/site";
 
 export function Testimonials() {
@@ -10,13 +11,11 @@ export function Testimonials() {
       <Container>
         <ScrollReveal>
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Testimonials</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{testimonialsCopy.eyebrow}</p>
             <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-              What clients say about LexBridge
+              {testimonialsCopy.title}
             </h2>
-            <p className="mt-3 text-xs text-muted">
-              Illustrative stories for demonstration; not endorsements or typical results.
-            </p>
+            <p className="mt-3 text-xs text-muted">{testimonialsCopy.disclaimer}</p>
           </div>
         </ScrollReveal>
 

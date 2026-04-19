@@ -2,6 +2,7 @@ import { HeroVisual } from "@/components/sections/HeroVisual";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { heroCopy } from "@/content/pageCopy";
 import { contactChannels, whatsappPrefillChat } from "@/content/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -12,9 +13,6 @@ const heroImage =
  * Hero CTAs match the site header: primary = structured intake (`/contact`), secondary = WhatsApp chat.
  * See Header desktop/mobile CTA mapping.
  */
-const heroHeadline =
-  "Verified lawyers for property, business, family, and disputes — confidential consults across India";
-
 const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
 
 export function Hero() {
@@ -60,39 +58,26 @@ export function Hero() {
         <ScrollReveal rootMargin="22% 0px -12% 0px">
           <div className="space-y-8">
             <h1 className="max-w-4xl font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-              {heroHeadline}
+              {heroCopy.headline}
             </h1>
-            <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">
-              Get expert legal assistance for property, business, family, or criminal matters. Transparent pricing.
-              Confidential consultations. No delays.
-            </p>
+            <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">{heroCopy.subtext}</p>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <ButtonLink href="/contact" variant="primary">
-                Talk to a lawyer now
+                {heroCopy.primaryCta}
               </ButtonLink>
               <ButtonLink href={waChat} variant="outline" external>
-                Chat on WhatsApp
+                {heroCopy.secondaryCta}
               </ButtonLink>
             </div>
             <ul className="flex max-w-xl flex-wrap gap-x-5 gap-y-2 text-sm text-muted">
-              <li className="flex items-center gap-1.5">
-                <span className="font-semibold text-accent" aria-hidden>
-                  ✓
-                </span>
-                Verified Lawyers
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="font-semibold text-accent" aria-hidden>
-                  ✓
-                </span>
-                100% Confidential
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="font-semibold text-accent" aria-hidden>
-                  ✓
-                </span>
-                Quick Response
-              </li>
+              {heroCopy.checklist.map((item) => (
+                <li key={item} className="flex items-center gap-1.5">
+                  <span className="font-semibold text-accent" aria-hidden>
+                    ✓
+                  </span>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         </ScrollReveal>

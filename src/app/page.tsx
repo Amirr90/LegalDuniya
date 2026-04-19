@@ -9,6 +9,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { TopServiceTiles } from "@/components/sections/TopServiceTiles";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { homePage } from "@/content/pageCopy";
 import { homeServiceSections, servicesCatalogHref } from "@/content/servicePages";
 
 export default function Home() {
@@ -23,7 +24,7 @@ export default function Home() {
             <div className={index % 2 === 0 ? "bg-surface" : ""}>
               <Container className="flex justify-center pb-14 pt-2 sm:pb-16 sm:pt-3">
                 <ButtonLink href={servicesCatalogHref} variant="outline">
-                  View all services
+                  {homePage.viewAllServicesCta}
                 </ButtonLink>
               </Container>
             </div>

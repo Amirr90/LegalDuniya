@@ -2,6 +2,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
+import { contactStripCopy } from "@/content/pageCopy";
 import { contactChannels, offices, whatsappPrefillChat } from "@/content/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -13,22 +14,20 @@ export function ContactStrip() {
       <Container className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <ScrollReveal delayMs={40}>
           <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Get in touch</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{contactStripCopy.eyebrow}</p>
             <h2 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-              Offices in Lucknow, Delhi, and Hyderabad
+              {contactStripCopy.title}
             </h2>
-            <p className="text-muted">
-              Prefer a call? Our intake team routes you to the right practice group in minutes—not days.
-            </p>
+            <p className="text-muted">{contactStripCopy.subtitle}</p>
             <div className="flex flex-wrap gap-3">
               <ButtonLink href={`tel:${contactChannels.phone.replace(/\s/g, "")}`} variant="primary" external>
-                Call now
+                {contactStripCopy.callCta}
               </ButtonLink>
               <ButtonLink href={waChat} variant="outline" external>
-                WhatsApp us
+                {contactStripCopy.whatsappCta}
               </ButtonLink>
               <ButtonLink href={`mailto:${contactChannels.emailInfo}`} variant="outline" external>
-                Email us
+                {contactStripCopy.emailCta}
               </ButtonLink>
             </div>
           </div>

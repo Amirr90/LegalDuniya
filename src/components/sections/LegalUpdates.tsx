@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Section } from "@/components/ui/Section";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
+import { legalUpdatesCopy } from "@/content/pageCopy";
 import { legalUpdates } from "@/content/site";
 
 export function LegalUpdates() {
@@ -12,18 +13,16 @@ export function LegalUpdates() {
         <ScrollReveal>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Latest legal updates</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-                Headlines that shape strategy
-              </h2>
-              <p className="mt-3 max-w-2xl text-muted">
-                Short briefs on judgments, policy shifts, and regulatory signals—curated for founders, in-house
-                teams, and families navigating disputes. The items below are on this page for context (not separate
-                articles).
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+                {legalUpdatesCopy.eyebrow}
               </p>
+              <h2 className="mt-2 font-display text-3xl font-semibold text-foreground sm:text-4xl">
+                {legalUpdatesCopy.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-muted">{legalUpdatesCopy.subtitle}</p>
             </div>
             <Link href="/contact" className="text-sm font-semibold text-accent underline-offset-4 hover:underline">
-              Speak to counsel
+              {legalUpdatesCopy.ctaLink}
             </Link>
           </div>
         </ScrollReveal>

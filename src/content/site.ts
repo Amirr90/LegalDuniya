@@ -1,3 +1,5 @@
+import { brandName } from "./pageCopy";
+
 /** Production: set `NEXT_PUBLIC_*` in `.env` — see repository `.env.example`. */
 function publicEnv(key: string, fallback: string): string {
   const v = typeof process !== "undefined" ? process.env[key] : undefined;
@@ -494,9 +496,18 @@ export const contactChannels = {
   emailCare: publicEnv("NEXT_PUBLIC_EMAIL_CARE", "care@example.com"),
 };
 
+/** Full profile URLs; override in `.env` with `NEXT_PUBLIC_*`. */
+export const socialProfiles = {
+  instagram: publicEnv("NEXT_PUBLIC_INSTAGRAM_URL", "https://www.instagram.com/"),
+  linkedin: publicEnv("NEXT_PUBLIC_LINKEDIN_URL", "https://www.linkedin.com/"),
+} as const;
+
 /** Prefilled message when user taps “Chat with lawyer”. */
 export const whatsappPrefillChat =
   "Hello, I would like to chat with a lawyer about my legal matter. Please let me know how to proceed.";
+
+/** Prefilled message when user taps the header WhatsApp icon (or header chat CTA). */
+export const whatsappPrefillHeader = `Hello, I am on the ${brandName} website and would like to speak with a lawyer. Please let me know the next steps.`;
 
 /** Prefilled message when user taps “Talk to lawyer”. */
 export const whatsappPrefillTalk =
