@@ -1,9 +1,3 @@
-export type Service = {
-  title: string;
-  description: string;
-  href: string;
-};
-
 export type Advocate = {
   name: string;
   practice: string;
@@ -38,9 +32,9 @@ export const stats = [
 export const navLinks = [{ href: "/", label: "Home" }] as const;
 
 export const serviceCategories = [
-  { href: "#services", label: "Find a lawyer" },
-  { href: "#advocates", label: "Top advocates" },
-  { href: "#updates", label: "Legal updates" },
+  { href: "/#top-services", label: "Find a lawyer" },
+  { href: "/#advocates", label: "Top advocates" },
+  { href: "/#updates", label: "Legal updates" },
 ] as const;
 
 export type LawyerServicesLink = {
@@ -198,39 +192,6 @@ export const businessIprMenu: BusinessIprSection[] = [
         ],
       },
     ],
-  },
-];
-
-export const services: Service[] = [
-  {
-    title: "Divorce & family",
-    description: "Custody, maintenance, mediation, and matrimonial disputes with compassionate counsel.",
-    href: "#contact",
-  },
-  {
-    title: "Property & RERA",
-    description: "Title diligence, landlord–tenant matters, and regulatory compliance for buyers and builders.",
-    href: "#contact",
-  },
-  {
-    title: "Corporate & tax",
-    description: "Contracts, GST, labour compliance, and transactional support for growing businesses.",
-    href: "#contact",
-  },
-  {
-    title: "Criminal & bail",
-    description: "FIR strategy, anticipatory bail, NDPS, and white-collar defence with experienced litigators.",
-    href: "#contact",
-  },
-  {
-    title: "Cyber & financial crime",
-    description: "Online fraud, banking disputes, and digital evidence preservation with rapid response.",
-    href: "#contact",
-  },
-  {
-    title: "High Court & Supreme Court",
-    description: "Special leave, appeals, and complex constitutional matters with senior advocates on roster.",
-    href: "#contact",
   },
 ];
 

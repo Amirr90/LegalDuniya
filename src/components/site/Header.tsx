@@ -48,11 +48,14 @@ export function Header() {
 
   useEffect(() => {
     if (!open) {
-      setMobileLawyerOpen(false);
-      setMobileLawyerCategoryId(null);
-      setMobileBusinessOpen(false);
-      setMobileBusinessSectionId(null);
-      setMobileBusinessCategoryId(null);
+      const id = window.requestAnimationFrame(() => {
+        setMobileLawyerOpen(false);
+        setMobileLawyerCategoryId(null);
+        setMobileBusinessOpen(false);
+        setMobileBusinessSectionId(null);
+        setMobileBusinessCategoryId(null);
+      });
+      return () => window.cancelAnimationFrame(id);
     }
   }, [open]);
 

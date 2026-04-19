@@ -38,7 +38,7 @@ export default function AboutPage() {
             <ButtonLink href="/contact" variant="primary">
               Talk to our team
             </ButtonLink>
-            <ButtonLink href="/#services" variant="outline">
+            <ButtonLink href="/#top-services" variant="outline">
               Browse services
             </ButtonLink>
           </div>

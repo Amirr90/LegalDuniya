@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Crimson_Pro, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ChatWidget />
       </body>
     </html>
   );
