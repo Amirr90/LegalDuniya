@@ -4,10 +4,18 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { businessIprMenu, lawyerServicesMenu, navLinks, serviceCategories } from "@/content/site";
+import {
+  businessIprMenu,
+  lawyerServicesMenu,
+  navLinks,
+  propertyServicesMenu,
+  propertySuggestedLinks,
+  serviceCategories,
+} from "@/content/site";
 
 const defaultBusinessSectionId = businessIprMenu[0]?.id ?? "";
 const defaultBusinessCategoryId = businessIprMenu[0]?.categories[0]?.id ?? "";
+const defaultPropertyCategoryId = propertyServicesMenu[0]?.id ?? "";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -20,6 +28,9 @@ export function Header() {
   const [mobileBusinessOpen, setMobileBusinessOpen] = useState(false);
   const [mobileBusinessSectionId, setMobileBusinessSectionId] = useState<string | null>(null);
   const [mobileBusinessCategoryId, setMobileBusinessCategoryId] = useState<string | null>(null);
+  const [propertyActiveId, setPropertyActiveId] = useState(defaultPropertyCategoryId);
+  const [mobilePropertyOpen, setMobilePropertyOpen] = useState(false);
+  const [mobilePropertyCategoryId, setMobilePropertyCategoryId] = useState<string | null>(null);
 
   const activeLawyerCategory = useMemo(
     () => lawyerServicesMenu.find((c) => c.id === lawyerActiveId) ?? lawyerServicesMenu[0],
@@ -39,6 +50,11 @@ export function Header() {
     );
   }, [activeBusinessSection, businessCategoryId]);
 
+  const activePropertyCategory = useMemo(
+    () => propertyServicesMenu.find((c) => c.id === propertyActiveId) ?? propertyServicesMenu[0],
+    [propertyActiveId],
+  );
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -54,6 +70,8 @@ export function Header() {
         setMobileBusinessOpen(false);
         setMobileBusinessSectionId(null);
         setMobileBusinessCategoryId(null);
+        setMobilePropertyOpen(false);
+        setMobilePropertyCategoryId(null);
       });
       return () => window.cancelAnimationFrame(id);
     }
@@ -327,6 +345,112 @@ export function Header() {
               </div>
             </div>
           </div>
+
+          <div
+            className="relative group"
+            onMouseLeave={() => setPropertyActiveId(defaultPropertyCategoryId)}
+          >
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-muted transition hover:text-foreground group-hover:text-foreground"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="property-services-mega"
+            >
+              Property
+              <span aria-hidden className="text-xs">
+                ▾
+              </span>
+            </button>
+            <div
+              id="property-services-mega"
+              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 translate-y-1 rounded-xl border border-border bg-surface-elevated opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100"
+            >
+              <div className="flex max-h-[min(75vh,520px)] min-h-0 flex-col">
+                <div className="shrink-0 border-b border-border bg-surface/90 px-3 py-2.5 sm:px-4">
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
+                    Suggested
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {propertySuggestedLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        aria-label={item.ariaLabel}
+                        className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground/90 hover:border-accent/50 hover:text-accent"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row">
+                  <div
+                    role="tablist"
+                    aria-label="Property service categories"
+                    className="flex shrink-0 flex-row gap-0 overflow-x-auto border-border sm:w-52 sm:flex-col sm:overflow-x-visible sm:border-r sm:border-border"
+                  >
+                    {propertyServicesMenu.map((cat) => {
+                      const isActive = cat.id === propertyActiveId;
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          role="tab"
+                          aria-selected={isActive}
+                          id={`property-tab-${cat.id}`}
+                          className={`flex items-center justify-between gap-2 whitespace-nowrap border-b border-border px-3 py-2.5 text-left text-sm transition last:border-b-0 sm:border-b sm:last:border-b sm:px-4 ${
+                            isActive
+                              ? "bg-surface font-medium text-foreground"
+                              : "text-muted hover:bg-surface/80 hover:text-foreground"
+                          }`}
+                          onMouseEnter={() => setPropertyActiveId(cat.id)}
+                          onFocus={() => setPropertyActiveId(cat.id)}
+                        >
+                          <span>{cat.label}</span>
+                          <span aria-hidden className="text-xs text-muted sm:inline">
+                            ›
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div
+                    role="tabpanel"
+                    aria-labelledby={`property-tab-${propertyActiveId}`}
+                    className="min-h-0 min-w-0 flex-1 overflow-y-auto p-3 sm:p-4"
+                  >
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
+                      {activePropertyCategory?.label}
+                    </p>
+                    <ul className="flex flex-col gap-0.5">
+                      {activePropertyCategory?.items.map((item) => (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                          >
+                            {item.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div className="shrink-0 border-t border-border bg-surface/90 px-3 py-2.5 sm:px-4">
+                  <p className="text-xs text-muted">
+                    Prefer guidance before you choose?{" "}
+                    <Link
+                      href="/contact"
+                      className="font-semibold text-accent underline-offset-2 hover:underline"
+                    >
+                      Request a callback
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -511,6 +635,97 @@ export function Header() {
                           aria-expanded={expanded}
                           onClick={() =>
                             setMobileLawyerCategoryId((id) => (id === cat.id ? null : cat.id))
+                          }
+                        >
+                          {cat.label}
+                          <span aria-hidden className="text-[10px]">
+                            {expanded ? "▾" : "▸"}
+                          </span>
+                        </button>
+                        {expanded ? (
+                          <ul className="flex flex-col gap-0.5 pb-1">
+                            {cat.items.map((item) => (
+                              <li key={item.href}>
+                                <Link
+                                  href={item.href}
+                                  className="block rounded-md py-1.5 pl-1 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {item.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                  <p className="text-xs text-muted">
+                    Prefer guidance first?{" "}
+                    <Link
+                      href="/contact"
+                      className="font-semibold text-accent underline-offset-2 hover:underline"
+                      onClick={() => setOpen(false)}
+                    >
+                      Request a callback
+                    </Link>
+                  </p>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="border-t border-border pt-3">
+              <button
+                type="button"
+                className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-sm font-medium text-foreground hover:bg-surface"
+                aria-expanded={mobilePropertyOpen}
+                aria-controls="mobile-property-services"
+                onClick={() =>
+                  setMobilePropertyOpen((value) => {
+                    const next = !value;
+                    if (!next) setMobilePropertyCategoryId(null);
+                    return next;
+                  })
+                }
+              >
+                Property
+                <span aria-hidden className="text-xs text-muted">
+                  {mobilePropertyOpen ? "▾" : "▸"}
+                </span>
+              </button>
+              {mobilePropertyOpen ? (
+                <div
+                  id="mobile-property-services"
+                  className="mt-1 flex flex-col gap-2 border-l-2 border-accent/25 pl-3"
+                >
+                  <div>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">
+                      Suggested
+                    </p>
+                    <div className="flex flex-col gap-1">
+                      {propertySuggestedLinks.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          aria-label={item.ariaLabel}
+                          className="rounded-md border border-border bg-surface px-2 py-1.5 text-center text-sm font-medium text-foreground/90 hover:border-accent/50 hover:text-accent"
+                          onClick={() => setOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                  {propertyServicesMenu.map((cat) => {
+                    const expanded = mobilePropertyCategoryId === cat.id;
+                    return (
+                      <div key={cat.id} className="flex flex-col gap-1">
+                        <button
+                          type="button"
+                          className="flex w-full items-center justify-between rounded-md py-1.5 pr-1 text-left text-xs font-semibold uppercase tracking-wide text-muted hover:text-foreground"
+                          aria-expanded={expanded}
+                          onClick={() =>
+                            setMobilePropertyCategoryId((id) => (id === cat.id ? null : cat.id))
                           }
                         >
                           {cat.label}

@@ -5,7 +5,27 @@ export type ChatbotFaqEntry = {
   keywords?: string[];
 };
 
+/** Shown when no FAQ matches and AI is unavailable or errors—still a full, helpful reply */
+export const CHATBOT_FALLBACK_ANSWER =
+  "Thanks for writing in. I am a website helper for LexBridge, not a lawyer: I do not answer one-off legal questions or tell you what you should do in your matter—that would be legal advice, and it needs an advocate who knows your full facts and jurisdiction.\n\nWhat I can tell you is how to move forward on LexBridge: use the quick questions below if they fit (how to find a lawyer, confidentiality, coverage, fees in general terms, and so on). For anything specific to your case, open the Contact page, describe your issue, city or state, and how soon you need help. A verified lawyer can then give you confidential guidance by chat or call.\n\nIf you are in immediate danger, contact local emergency services first.";
+
 export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
+  {
+    question: "My question is not in the list—how do I get an answer?",
+    answer:
+      "If your question is about your own rights, documents, court steps, or what someone else can do to you, that is legal advice. This assistant cannot answer that. Use the Contact page: explain your situation in a few lines, your location, and any deadlines. LexBridge will connect you with a verified advocate for a confidential consult. For general questions only about how LexBridge works, try the quick questions below.",
+    keywords: [
+      "not listed",
+      "no answer",
+      "saved answer",
+      "you did not",
+      "didn't answer",
+      "still need",
+      "actual answer",
+      "tell me about my",
+      "what about my",
+    ],
+  },
   {
     question: "What is LexBridge?",
     answer:
@@ -16,7 +36,19 @@ export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
     question: "How do I talk to a lawyer?",
     answer:
       "Use Find a lawyer on the home page to explore services, or open the Contact page to send your request. Briefly describe your issue and preferred city or practice area so we can route you to the right expert.",
-    keywords: ["consult", "book", "speak", "call", "appointment", "hire"],
+    keywords: [
+      "consult",
+      "book",
+      "speak",
+      "call",
+      "appointment",
+      "hire",
+      "talk to someone",
+      "speak to someone",
+      "connect me",
+      "get help",
+      "need a lawyer",
+    ],
   },
   {
     question: "Is my consultation confidential?",
@@ -63,7 +95,7 @@ function normalize(s: string): string {
     .replace(/\s+/g, " ");
 }
 
-const MATCH_THRESHOLD = 28;
+const MATCH_THRESHOLD = 22;
 
 /** Best FAQ entry for free-form user text, or null if no confident match */
 export function matchChatbotFaq(userText: string): ChatbotFaqEntry | null {

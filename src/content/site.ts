@@ -144,6 +144,60 @@ export const lawyerServicesMenu: LawyerServicesCategory[] = [
   },
 ];
 
+export type PropertySuggestedLink = LawyerServicesLink & {
+  ariaLabel: string;
+};
+
+/** Two shortcuts with visible label "Property"; distinct hrefs and aria-labels for accessibility. */
+export const propertySuggestedLinks: PropertySuggestedLink[] = [
+  {
+    label: "Property",
+    href: "/contact?topic=property-suggested-verification",
+    ariaLabel: "Property — verification",
+  },
+  {
+    label: "Property",
+    href: "/contact?topic=property-suggested-services",
+    ariaLabel: "Property — services",
+  },
+];
+
+/** Property mega menu; links go to contact until dedicated pages exist. */
+export const propertyServicesMenu: LawyerServicesCategory[] = [
+  {
+    id: "property-verification",
+    label: "Property verification",
+    items: [
+      { label: "Title verification", href: "/contact?topic=property-verify-title" },
+      { label: "Encumbrance certificate (EC) review", href: "/contact?topic=property-verify-ec" },
+      { label: "Chain of title analysis", href: "/contact?topic=property-verify-chain" },
+      { label: "Property document verification", href: "/contact?topic=property-verify-docs" },
+    ],
+  },
+  {
+    id: "property-services",
+    label: "Property services",
+    items: [
+      { label: "Property registration assistance", href: "/contact?topic=property-service-registration" },
+      { label: "Encumbrance certificate obtain", href: "/contact?topic=property-service-ec-obtain" },
+      { label: "Khata / mutation support", href: "/contact?topic=property-service-khata-mutation" },
+      { label: "Valuation coordination", href: "/contact?topic=property-service-valuation" },
+    ],
+  },
+  {
+    id: "property-legal",
+    label: "Property legal services",
+    items: [
+      { label: "Title search and due diligence", href: "/contact?topic=property-legal-title-diligence" },
+      { label: "Sale deed drafting and review", href: "/contact?topic=property-legal-sale-deed" },
+      { label: "Gift deed and partition deed", href: "/contact?topic=property-legal-gift-partition" },
+      { label: "RERA complaints and builder disputes", href: "/contact?topic=property-legal-rera" },
+      { label: "Lease and rental agreements", href: "/contact?topic=property-legal-lease" },
+      { label: "Mutation and khata assistance", href: "/contact?topic=property-legal-mutation-khata" },
+    ],
+  },
+];
+
 export type BusinessIprCategory = {
   id: string;
   label: string;

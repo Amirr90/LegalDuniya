@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { CHATBOT_FAQ, matchChatbotFaq } from "@/content/chatbotFaq";
+import { CHATBOT_FAQ, CHATBOT_FALLBACK_ANSWER, matchChatbotFaq } from "@/content/chatbotFaq";
 
 type ChatRole = "user" | "assistant";
 
@@ -13,9 +13,6 @@ type ChatLine = {
 
 const WELCOME =
   "Hi, I am the LexBridge assistant. I can answer common questions about how LexBridge works. This is general information only—not legal advice. For your specific situation, please speak with a qualified lawyer via our Contact page.";
-
-const NO_MATCH =
-  "I do not have a saved answer for that. Try one of the quick questions below, or use the Contact page to reach a verified advocate.";
 
 function newId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -98,16 +95,16 @@ export function ChatWidget() {
       };
 
       if (!res.ok) {
-        appendAssistant(data.error ?? NO_MATCH);
+        appendAssistant(CHATBOT_FALLBACK_ANSWER);
         return;
       }
       if (data.reply) {
         appendAssistant(data.reply);
         return;
       }
-      appendAssistant(NO_MATCH);
+      appendAssistant(CHATBOT_FALLBACK_ANSWER);
     } catch {
-      appendAssistant(NO_MATCH);
+      appendAssistant(CHATBOT_FALLBACK_ANSWER);
     } finally {
       setBusy(false);
     }
@@ -146,8 +143,8 @@ export function ChatWidget() {
                 key={m.id}
                 className={
                   m.role === "user"
-                    ? "ml-6 rounded-2xl rounded-br-md bg-accent/15 px-3 py-2 text-foreground"
-                    : "mr-4 rounded-2xl rounded-bl-md border border-border/80 bg-surface px-3 py-2 text-foreground/95"
+                    ? "ml-6 whitespace-pre-wrap rounded-2xl rounded-br-md bg-accent/15 px-3 py-2 text-foreground"
+                    : "mr-4 whitespace-pre-wrap rounded-2xl rounded-bl-md border border-border/80 bg-surface px-3 py-2 text-foreground/95"
                 }
               >
                 {m.content}
