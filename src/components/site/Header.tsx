@@ -209,6 +209,7 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     className="block rounded-lg px-3 py-2 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                    onClick={closeDesktopMenuNow}
                   >
                     {item.label}
                   </Link>
@@ -218,6 +219,7 @@ export function Header() {
                 <Link
                   href={allServicesMenuItem.href}
                   className="block rounded-lg px-3 py-2 text-sm font-medium text-foreground/90 hover:bg-surface hover:text-accent"
+                  onClick={closeDesktopMenuNow}
                 >
                   {allServicesMenuItem.label}
                 </Link>
@@ -234,6 +236,7 @@ export function Header() {
               setBusinessCategoryId(defaultBusinessCategoryId);
             }}
             onFocusCapture={() => openDesktopMenu("business")}
+            onBlurCapture={blurCloseDesktopMenuIfLeaving}
           >
             <button
               type="button"
@@ -249,7 +252,11 @@ export function Header() {
             </button>
             <div
               id="business-ipr-mega"
-              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),760px)] -translate-x-1/2 translate-y-1 rounded-xl border border-border bg-surface-elevated opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100"
+              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),760px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+                desktopMenuOpen === "business"
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-1 opacity-0"
+              }`}
             >
               <div className="flex max-h-[min(75vh,520px)] min-h-0 flex-col">
                 <div className="flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row">
@@ -335,6 +342,7 @@ export function Header() {
                           <Link
                             href={item.href}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                            onClick={closeDesktopMenuNow}
                           >
                             {item.label}
                           </Link>
@@ -349,6 +357,7 @@ export function Header() {
                     <Link
                       href="/contact"
                       className="font-semibold text-accent underline-offset-2 hover:underline"
+                      onClick={closeDesktopMenuNow}
                     >
                       Request a callback
                     </Link>
@@ -366,6 +375,7 @@ export function Header() {
               setLawyerActiveId(lawyerServicesMenu[0]?.id ?? "");
             }}
             onFocusCapture={() => openDesktopMenu("lawyer")}
+            onBlurCapture={blurCloseDesktopMenuIfLeaving}
           >
             <button
               type="button"
@@ -381,7 +391,11 @@ export function Header() {
             </button>
             <div
               id="lawyer-services-mega"
-              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 translate-y-1 rounded-xl border border-border bg-surface-elevated opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100"
+              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+                desktopMenuOpen === "lawyer"
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-1 opacity-0"
+              }`}
             >
               <div className="flex max-h-[min(75vh,520px)] min-h-0 flex-col">
                 <div className="flex min-h-0 min-w-0 flex-1 flex-col sm:flex-row">
@@ -429,6 +443,7 @@ export function Header() {
                           <Link
                             href={item.href}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                            onClick={closeDesktopMenuNow}
                           >
                             {item.label}
                           </Link>
@@ -443,6 +458,7 @@ export function Header() {
                     <Link
                       href="/contact"
                       className="font-semibold text-accent underline-offset-2 hover:underline"
+                      onClick={closeDesktopMenuNow}
                     >
                       Request a callback
                     </Link>
@@ -460,6 +476,7 @@ export function Header() {
               setPropertyActiveId(defaultPropertyCategoryId);
             }}
             onFocusCapture={() => openDesktopMenu("property")}
+            onBlurCapture={blurCloseDesktopMenuIfLeaving}
           >
             <button
               type="button"
@@ -475,7 +492,11 @@ export function Header() {
             </button>
             <div
               id="property-services-mega"
-              className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 translate-y-1 rounded-xl border border-border bg-surface-elevated opacity-0 shadow-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:translate-y-0 group-focus-within:opacity-100"
+              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+                desktopMenuOpen === "property"
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-1 opacity-0"
+              }`}
             >
               <div className="flex max-h-[min(75vh,520px)] min-h-0 flex-col">
                 <div className="shrink-0 border-b border-border bg-surface/90 px-3 py-2.5 sm:px-4">
@@ -489,6 +510,7 @@ export function Header() {
                         href={item.href}
                         aria-label={item.ariaLabel}
                         className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground/90 hover:border-accent/50 hover:text-accent"
+                        onClick={closeDesktopMenuNow}
                       >
                         {item.label}
                       </Link>
@@ -540,6 +562,7 @@ export function Header() {
                           <Link
                             href={item.href}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
+                            onClick={closeDesktopMenuNow}
                           >
                             {item.label}
                           </Link>
@@ -554,6 +577,7 @@ export function Header() {
                     <Link
                       href="/contact"
                       className="font-semibold text-accent underline-offset-2 hover:underline"
+                      onClick={closeDesktopMenuNow}
                     >
                       Request a callback
                     </Link>
@@ -917,3 +941,6 @@ export function Header() {
           </Container>
         </div>
       ) : null}
+    </header>
+  );
+}
