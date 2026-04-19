@@ -215,8 +215,111 @@ export type BusinessIprSection = {
   categories: BusinessIprCategory[];
 };
 
-/** Business & IPR mega menu; StartUp section mirrors LegalKart startup tree; leaf links open `/service/[slug]` landings. */
+/** Business & IPR mega menu; Vakilsearch-style pillars + Startup bundle; leaf links open `/service/[slug]` landings. */
 export const businessIprMenu: BusinessIprSection[] = [
+  {
+    id: "business-registration",
+    label: "Business registration",
+    categories: [
+      {
+        id: "biz-company-structures",
+        label: "Company structures",
+        items: [
+          { label: "Private Limited Company", href: "/service/startup-private-limited" },
+          { label: "Limited Liability Partnership", href: "/service/startup-llp" },
+          { label: "One Person Company", href: "/service/startup-opc" },
+          { label: "Partnership firm", href: "/service/startup-partnership-firm" },
+          { label: "Sole proprietorship", href: "/service/biz-reg-sole-proprietorship" },
+          { label: "Nidhi company", href: "/service/biz-reg-nidhi-company" },
+          { label: "Producer company", href: "/service/biz-reg-producer-company" },
+          { label: "Section 8 company", href: "/service/biz-reg-section-8-company" },
+        ],
+      },
+      {
+        id: "biz-name-programs",
+        label: "Name and startup programs",
+        items: [
+          { label: "Company name search", href: "/service/biz-reg-company-name-search" },
+          { label: "Change company name", href: "/service/biz-reg-change-company-name" },
+          { label: "Startup India registration", href: "/service/biz-reg-startup-india" },
+        ],
+      },
+      {
+        id: "biz-licenses",
+        label: "Licenses and registrations",
+        items: [
+          { label: "Digital Signature Certificate (DSC)", href: "/service/biz-reg-digital-signature-certificate" },
+          { label: "Udyam (MSME) registration", href: "/service/biz-reg-udyam-registration" },
+          { label: "FSSAI license", href: "/service/biz-reg-fssai-license" },
+          { label: "Import Export Code (IEC)", href: "/service/startup-export-import-code" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "tax-compliance",
+    label: "Tax and compliance",
+    categories: [
+      {
+        id: "tax-gst",
+        label: "GST",
+        items: [
+          { label: "GST registration", href: "/service/startup-gst-registration" },
+          { label: "GST return filing", href: "/service/startup-annual-gst-return" },
+          { label: "GST cancellation", href: "/service/tax-gst-cancellation" },
+        ],
+      },
+      {
+        id: "tax-company-changes",
+        label: "Company changes",
+        items: [
+          { label: "Add director", href: "/service/tax-add-director" },
+          { label: "Remove director", href: "/service/tax-remove-director" },
+          { label: "Increase authorized capital", href: "/service/tax-increase-authorized-capital" },
+          { label: "Change registered office", href: "/service/tax-change-registered-office" },
+        ],
+      },
+      {
+        id: "tax-annual-labour",
+        label: "Annual filings and labour",
+        items: [
+          { label: "ROC annual filing", href: "/service/tax-roc-annual-filing" },
+          { label: "LLP annual filing", href: "/service/tax-llp-annual-filing" },
+          { label: "PF registration", href: "/service/tax-pf-registration" },
+          { label: "ESI registration", href: "/service/tax-esi-registration" },
+          { label: "Shops and establishment license", href: "/service/tax-shops-establishment" },
+          { label: "Professional tax registration", href: "/service/tax-professional-tax-registration" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "trademark-ip",
+    label: "Trademark and IP",
+    categories: [
+      {
+        id: "ip-trademark",
+        label: "Trademark",
+        items: [
+          { label: "Trademark registration", href: "/service/startup-trademark" },
+          { label: "Trademark search", href: "/service/ipr-trademark-search" },
+          { label: "Respond to trademark objections", href: "/service/startup-tm-objections" },
+          { label: "Trademark renewal", href: "/service/ipr-trademark-renewal" },
+          { label: "Trademark assignment", href: "/service/ipr-trademark-assignment" },
+        ],
+      },
+      {
+        id: "ip-copyright-patent-design",
+        label: "Copyright, patent, and design",
+        items: [
+          { label: "Copyright registration", href: "/service/startup-copyright" },
+          { label: "Patent registration", href: "/service/startup-patent" },
+          { label: "Provisional patent application", href: "/service/ipr-patent-provisional-application" },
+          { label: "Design registration", href: "/service/ipr-design-registration" },
+        ],
+      },
+    ],
+  },
   {
     id: "startup",
     label: "Startup",

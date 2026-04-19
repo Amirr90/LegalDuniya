@@ -221,7 +221,64 @@ export const allServicesMenuItem: ServiceNavLink = {
   href: servicesCatalogHref,
 };
 
+function isComplianceServiceSlug(slug: string): boolean {
+  return (
+    slug.startsWith("biz-reg-") ||
+    slug.startsWith("tax-") ||
+    slug.startsWith("ipr-") ||
+    slug.startsWith("startup-")
+  );
+}
+
+function buildComplianceServicePage(tile: ServiceTile): ServicePageContent {
+  const label = tile.title;
+  const topic = label.toLowerCase();
+
+  const heroSummary = `LexBridge helps you coordinate ${topic} with professionals used to government portals, timelines, and document checklists. Share your situation once and we will align you with the right specialist for filings, replies, and follow-ups.`;
+
+  const articleLead = `Getting ${topic} right early reduces rework, rejections, and penalties. The overview below is general information about how LexBridge supports incorporation, tax, and IP filings—not legal, tax, or regulatory advice for your specific facts.`;
+
+  const sections: ServiceArticleSection[] = [
+    {
+      heading: "Clear scope and deliverables",
+      body: `You should know what documents are needed, what approvals apply, and what “done” looks like. LexBridge-connected company secretaries, chartered accountants, and advocates can explain the steps for ${topic} in plain language before work begins.`,
+    },
+    {
+      heading: "Accurate filings and responses",
+      body: `Many ${topic} matters depend on correct forms, class selections, and supporting evidence. Specialists can help you prepare submissions, track objections or queries, and respond within deadlines.`,
+    },
+    {
+      heading: "Coordination across disciplines",
+      body: `Registrations and compliance often touch more than one domain—for example, corporate changes alongside tax positions. LexBridge can help you sequence work so related filings stay consistent.`,
+    },
+    {
+      heading: "Ongoing compliance awareness",
+      body: `After the first milestone, calendars matter: renewals, event-based filings, and annual obligations. Ask about reminders and review cycles so ${topic} does not become a last-minute scramble.`,
+    },
+    {
+      heading: "Fast intake and follow-up",
+      body: `LexBridge is built for confidential intake and status updates. Request a callback or written next steps so you are not navigating ${topic} requirements alone.`,
+    },
+  ];
+
+  const metaDescription = `${label} — LexBridge intake for registrations, compliance, and IP filings. General information only; not legal or tax advice.`;
+
+  return {
+    slug: tile.slug,
+    title: label,
+    heroSummary,
+    heroImageSrc: tile.imageSrc,
+    articleLead,
+    sections,
+    metaDescription,
+  };
+}
+
 function buildServicePage(tile: ServiceTile): ServicePageContent {
+  if (isComplianceServiceSlug(tile.slug)) {
+    return buildComplianceServicePage(tile);
+  }
+
   const label = tile.title;
   const focus = tile.tagline ? `${tile.tagline.toLowerCase()}` : label.toLowerCase();
 
