@@ -198,28 +198,7 @@ export const homeServiceSections: ServiceSectionSpec[] = [
   },
 ];
 
-export type ServiceNavLink = {
-  label: string;
-  href: string;
-};
-
-const comprehensiveSection =
-  homeServiceSections.find((s) => s.id === "top-services") ?? homeServiceSections[0];
-
-/** Header Services menu: links to each landing in the “Comprehensive legal solutions” grid. */
-export const comprehensiveLegalSolutionLinks: ServiceNavLink[] = comprehensiveSection.tiles.map(
-  (tile) => ({
-    label: tile.title,
-    href: `/service/${tile.slug}`,
-  }),
-);
-
 export const servicesCatalogHref = "/services";
-
-export const allServicesMenuItem: ServiceNavLink = {
-  label: "All",
-  href: servicesCatalogHref,
-};
 
 function isComplianceServiceSlug(slug: string): boolean {
   return (
@@ -352,6 +331,12 @@ const servicePagesBySlug = new Map<string, ServicePageContent>(
 export function getAllServiceSlugs(): string[] {
   return allTiles.map((t) => t.slug);
 }
+
+/** Minimal catalog for header search (same slugs as service static params). */
+export const searchableServiceLinks: { title: string; href: string }[] = allTiles.map((t) => ({
+  title: t.title,
+  href: `/service/${t.slug}`,
+}));
 
 export function getServicePage(slug: string): ServicePageContent | undefined {
   return servicePagesBySlug.get(slug);

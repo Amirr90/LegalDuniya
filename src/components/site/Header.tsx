@@ -5,21 +5,20 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { HeaderServiceSearch } from "@/components/site/HeaderServiceSearch";
 import { brandName } from "@/content/pageCopy";
 import {
   allServicesMenuItem,
   comprehensiveLegalSolutionLinks,
-} from "@/content/servicePages";
-import {
   businessIprMenu,
-  contactChannels,
+  headerServiceStripLinks,
   lawyerServicesMenu,
   navLinks,
   propertyServicesMenu,
   propertySuggestedLinks,
   serviceCategories,
-  whatsappPrefillHeader,
-} from "@/content/site";
+} from "@/content/menus";
+import { contactChannels, whatsappPrefillHeader } from "@/content/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 /** CTAs: WhatsApp for quick chat; `/contact` for structured intake (matches Hero). */
@@ -30,6 +29,24 @@ function HeaderWhatsAppGlyph({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.881 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
     </svg>
+  );
+}
+
+function ServiceStripLink({
+  item,
+  onClick,
+}: {
+  item: (typeof headerServiceStripLinks.left)[number];
+  onClick: () => void;
+}) {
+  return (
+    <Link
+      href={item.href}
+      className="inline-flex shrink-0 items-center whitespace-nowrap rounded-lg border border-border bg-background/50 px-3 py-1.5 text-xs font-medium text-foreground/90 transition hover:border-accent/45 hover:text-accent focus-visible:border-accent focus-visible:text-accent"
+      onClick={onClick}
+    >
+      <span>{item.label}</span>
+    </Link>
   );
 }
 
@@ -80,8 +97,11 @@ export function Header() {
 
   const pathname = usePathname();
   useEffect(() => {
-    closeDesktopMenuNow();
-    setOpen(false);
+    const id = window.requestAnimationFrame(() => {
+      closeDesktopMenuNow();
+      setOpen(false);
+    });
+    return () => window.cancelAnimationFrame(id);
   }, [pathname, closeDesktopMenuNow]);
 
   const blurCloseDesktopMenuIfLeaving = (event: FocusEvent<HTMLDivElement>) => {
@@ -172,7 +192,7 @@ export function Header() {
             </Link>
           ))}
           <div
-            className="relative group"
+            className="relative order-3 group"
             onPointerEnter={() => openDesktopMenu("services")}
             onPointerLeave={scheduleDesktopMenuClose}
             onFocusCapture={() => openDesktopMenu("services")}
@@ -237,7 +257,7 @@ export function Header() {
           </div>
 
           <div
-            className="relative group"
+            className="relative order-4 group"
             onPointerEnter={() => openDesktopMenu("business")}
             onPointerLeave={() => {
               scheduleDesktopMenuClose();
@@ -377,7 +397,7 @@ export function Header() {
           </div>
 
           <div
-            className="relative group"
+            className="relative order-1 group"
             onPointerEnter={() => openDesktopMenu("lawyer")}
             onPointerLeave={() => {
               scheduleDesktopMenuClose();
@@ -393,7 +413,7 @@ export function Header() {
               aria-expanded={desktopMenuOpen === "lawyer"}
               aria-controls="lawyer-services-mega"
             >
-              Lawyer services
+              Lawyer Services
               <span aria-hidden className="text-xs">
                 ▾
               </span>
@@ -478,7 +498,7 @@ export function Header() {
           </div>
 
           <div
-            className="relative group"
+            className="relative order-2 group"
             onPointerEnter={() => openDesktopMenu("property")}
             onPointerLeave={() => {
               scheduleDesktopMenuClose();
@@ -634,6 +654,26 @@ export function Header() {
         </div>
       </Container>
 
+      <div className="border-t border-border/80 bg-surface/55">
+        <Container className="grid gap-3 py-2.5 md:grid-cols-[1fr_minmax(280px,560px)_1fr] md:items-center">
+          <div className="order-2 flex min-w-0 items-center justify-center gap-4 overflow-x-auto md:order-1 md:justify-start">
+            {headerServiceStripLinks.left.map((item) => (
+              <ServiceStripLink key={item.href} item={item} onClick={closeDesktopMenuNow} />
+            ))}
+          </div>
+
+          <div className="order-1 min-w-0 md:order-2">
+            <HeaderServiceSearch onNavigate={closeDesktopMenuNow} />
+          </div>
+
+          <div className="order-3 flex min-w-0 items-center justify-center gap-4 overflow-x-auto md:justify-end">
+            {headerServiceStripLinks.right.map((item) => (
+              <ServiceStripLink key={item.href} item={item} onClick={closeDesktopMenuNow} />
+            ))}
+          </div>
+        </Container>
+      </div>
+
       {open ? (
         <div
           id="mobile-nav"
@@ -681,7 +721,7 @@ export function Header() {
               {allServicesMenuItem.label}
             </Link>
 
-            <div className="border-t border-border pt-3">
+            <div className="order-4 border-t border-border pt-3">
               <button
                 type="button"
                 className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-sm font-medium text-foreground hover:bg-surface"
@@ -782,7 +822,7 @@ export function Header() {
               ) : null}
             </div>
 
-            <div className="border-t border-border pt-3">
+            <div className="order-1 border-t border-border pt-3">
               <button
                 type="button"
                 className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-sm font-medium text-foreground hover:bg-surface"
@@ -796,7 +836,7 @@ export function Header() {
                   })
                 }
               >
-                Lawyer services
+                Lawyer Services
                 <span aria-hidden className="text-xs text-muted">
                   {mobileLawyerOpen ? "▾" : "▸"}
                 </span>
@@ -852,7 +892,7 @@ export function Header() {
               ) : null}
             </div>
 
-            <div className="border-t border-border pt-3">
+            <div className="order-2 border-t border-border pt-3">
               <button
                 type="button"
                 className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-sm font-medium text-foreground hover:bg-surface"
