@@ -31,9 +31,10 @@ const allServicesLinkClass =
 
 type Props = {
   onNavigate: () => void;
+  suppress?: boolean;
 };
 
-export function HeaderServiceSearch({ onNavigate }: Props) {
+export function HeaderServiceSearch({ onNavigate, suppress = false }: Props) {
   const router = useRouter();
   const [resultsOpen, setResultsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -75,6 +76,11 @@ export function HeaderServiceSearch({ onNavigate }: Props) {
   }, [resultsOpen, close]);
 
   useEffect(() => {
+    if (!suppress) return;
+    close();
+  }, [suppress, close]);
+
+  useEffect(() => {
     if (!resultsOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
@@ -107,14 +113,16 @@ export function HeaderServiceSearch({ onNavigate }: Props) {
   };
 
   return (
-    <div ref={rootRef} className="relative z-[60] min-w-0 w-full">
+    <div ref={rootRef} className="relative min-w-0 w-full">
       <div className="flex min-h-11 w-full min-w-0 items-stretch overflow-hidden rounded-sm border border-border bg-background/85 shadow-[0_12px_28px_-22px_rgba(0,0,0,0.9)] transition focus-within:border-accent/50">
         <input
           ref={inputRef}
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setResultsOpen(true)}
+          onFocus={() => {
+            if (!suppress) setResultsOpen(true);
+          }}
           onBlur={handleInputBlur}
           onKeyDown={handleInputKeyDown}
           autoComplete="off"
@@ -132,6 +140,7 @@ export function HeaderServiceSearch({ onNavigate }: Props) {
           className="grid h-11 w-12 shrink-0 place-items-center bg-accent text-accent-foreground transition hover:bg-accent/90"
           onMouseDown={(e) => {
             e.preventDefault();
+            if (suppress) return;
             inputRef.current?.focus();
             setResultsOpen(true);
           }}
@@ -148,7 +157,7 @@ export function HeaderServiceSearch({ onNavigate }: Props) {
         </button>
       </div>
 
-      {resultsOpen ? (
+      {resultsOpen && !suppress ? (
         <div
           id={resultsPanelId}
           role="region"

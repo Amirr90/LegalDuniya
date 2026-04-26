@@ -14,6 +14,25 @@ function toId(label: string, idx: number): string {
   return slug || `n-${idx}`;
 }
 
+function toMenuLabelCase(label: string): string {
+  return label
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => {
+      if (!word) return word;
+      if (word === "ipr") return "IPR";
+      if (word === "gst") return "GST";
+      if (word === "iec") return "IEC";
+      if (word === "msme") return "MSME";
+      if (word === "roc") return "ROC";
+      if (word === "llp") return "LLP";
+      if (word === "cbi") return "CBI";
+      return `${word[0]?.toUpperCase() ?? ""}${word.slice(1)}`;
+    })
+    .join(" ");
+}
+
 export type HeaderMenusData = {
   lawyerServicesMenu: LawyerServicesCategory[];
   propertyServicesMenu: LawyerServicesCategory[];
@@ -51,36 +70,45 @@ export async function getHeaderMenus(): Promise<HeaderMenusData> {
   return {
     lawyerServicesMenu: lawyer.map((cat, i) => ({
       id: toId(cat.label, i),
-      label: cat.label,
-      items: (cat.children ?? []).map((it) => ({ label: it.label, href: it.href })),
+      label: toMenuLabelCase(cat.label),
+      items: (cat.children ?? []).map((it) => ({
+        label: toMenuLabelCase(it.label),
+        href: it.href,
+      })),
     })),
     propertyServicesMenu: property.map((cat, i) => ({
       id: toId(cat.label, i),
-      label: cat.label,
-      items: (cat.children ?? []).map((it) => ({ label: it.label, href: it.href })),
+      label: toMenuLabelCase(cat.label),
+      items: (cat.children ?? []).map((it) => ({
+        label: toMenuLabelCase(it.label),
+        href: it.href,
+      })),
     })),
     businessIprMenu: business.map((sec, i) => ({
       id: toId(sec.label, i),
-      label: sec.label,
+      label: toMenuLabelCase(sec.label),
       categories: (sec.children ?? []).map((cat, j) => ({
         id: toId(cat.label, j),
-        label: cat.label,
-        items: (cat.children ?? []).map((it) => ({ label: it.label, href: it.href })),
+        label: toMenuLabelCase(cat.label),
+        items: (cat.children ?? []).map((it) => ({
+          label: toMenuLabelCase(it.label),
+          href: it.href,
+        })),
       })),
     })),
     headerServiceStripLinks: {
-      left: stripLeft.map((it) => ({ label: it.label, href: it.href })),
-      right: stripRight.map((it) => ({ label: it.label, href: it.href })),
+      left: stripLeft.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
+      right: stripRight.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
     },
-    serviceCategories: categories.map((it) => ({ label: it.label, href: it.href })),
+    serviceCategories: categories.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
     comprehensiveLegalSolutionLinks: comprehensive.map((it) => ({
-      label: it.label,
+      label: toMenuLabelCase(it.label),
       href: it.href,
     })),
     propertySuggestedLinks: suggested.map((it) => ({
-      label: it.label,
+      label: toMenuLabelCase(it.label),
       href: it.href,
-      ariaLabel: it.ariaLabel ?? it.label,
+      ariaLabel: toMenuLabelCase(it.ariaLabel ?? it.label),
     })),
   };
 }

@@ -67,7 +67,7 @@ export function Hero({
           </svg>
         </div>
       </div>
-      <Container className="relative z-10 grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+      <Container className="relative z-10 grid items-start gap-8 py-16 lg:grid-cols-[0.95fr_1.05fr] lg:py-24">
         <ScrollReveal rootMargin="22% 0px -12% 0px">
           <div className="space-y-8">
             <h1 className="max-w-4xl font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl lg:text-6xl">

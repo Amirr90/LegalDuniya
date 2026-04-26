@@ -225,7 +225,7 @@ export function HeaderClient({
             </button>
             <div
               id="nav-services-menu"
-              className={`absolute left-0 top-full z-50 mt-2 min-w-[min(100vw-2rem,300px)] max-w-[min(100vw-2rem,320px)] rounded-xl border border-border bg-surface-elevated p-2 shadow-xl transition ${
+              className={`absolute left-0 top-full z-50 mt-3 min-w-[min(100vw-2rem,300px)] max-w-[min(100vw-2rem,320px)] rounded-xl border border-border bg-surface-elevated p-2 shadow-xl transition ${
                 desktopMenuOpen === "services"
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-1 opacity-0"
@@ -294,7 +294,7 @@ export function HeaderClient({
             </button>
             <div
               id="business-ipr-mega"
-              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),760px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+              className={`absolute left-1/2 top-full z-50 mt-3 w-[min(calc(100vw-2rem),760px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
                 desktopMenuOpen === "business"
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-1 opacity-0"
@@ -433,7 +433,7 @@ export function HeaderClient({
             </button>
             <div
               id="lawyer-services-mega"
-              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+              className={`absolute left-1/2 top-full z-50 mt-3 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
                 desktopMenuOpen === "lawyer"
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-1 opacity-0"
@@ -534,7 +534,7 @@ export function HeaderClient({
             </button>
             <div
               id="property-services-mega"
-              className={`absolute left-1/2 top-full z-50 mt-2 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
+              className={`absolute left-1/2 top-full z-50 mt-3 w-[min(calc(100vw-2rem),680px)] -translate-x-1/2 rounded-xl border border-border bg-surface-elevated shadow-xl transition ${
                 desktopMenuOpen === "property"
                   ? "pointer-events-auto translate-y-0 opacity-100"
                   : "pointer-events-none translate-y-1 opacity-0"
@@ -681,7 +681,10 @@ export function HeaderClient({
           </div>
 
           <div className="order-1 min-w-0 md:order-2">
-            <HeaderServiceSearch onNavigate={closeDesktopMenuNow} />
+            <HeaderServiceSearch
+              onNavigate={closeDesktopMenuNow}
+              suppress={desktopMenuOpen !== null}
+            />
           </div>
 
           <div className="order-3 flex min-w-0 items-center justify-center gap-4 overflow-x-auto md:justify-end">

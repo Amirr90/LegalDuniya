@@ -1,4 +1,5 @@
 import { getMegaMenuServiceLeaves } from "./site";
+import { complianceServicePageCopy, servicePageCopy } from "./servicePageCopy";
 
 export type ServiceTile = {
   title: string;
@@ -213,34 +214,34 @@ function buildComplianceServicePage(tile: ServiceTile): ServicePageContent {
   const label = tile.title;
   const topic = label.toLowerCase();
 
-  const heroSummary = `LexBridge helps you coordinate ${topic} with professionals used to government portals, timelines, and document checklists. Share your situation once and we will align you with the right specialist for filings, replies, and follow-ups.`;
+  const heroSummary = complianceServicePageCopy.heroSummary({ topic });
 
-  const articleLead = `Getting ${topic} right early reduces rework, rejections, and penalties. The overview below is general information about how LexBridge supports incorporation, tax, and IP filings—not legal, tax, or regulatory advice for your specific facts.`;
+  const articleLead = complianceServicePageCopy.articleLead({ topic });
 
   const sections: ServiceArticleSection[] = [
     {
       heading: "Clear scope and deliverables",
-      body: `You should know what documents are needed, what approvals apply, and what “done” looks like. LexBridge-connected company secretaries, chartered accountants, and advocates can explain the steps for ${topic} in plain language before work begins.`,
+      body: complianceServicePageCopy.sectionBodies.clearScope({ topic }),
     },
     {
       heading: "Accurate filings and responses",
-      body: `Many ${topic} matters depend on correct forms, class selections, and supporting evidence. Specialists can help you prepare submissions, track objections or queries, and respond within deadlines.`,
+      body: complianceServicePageCopy.sectionBodies.filingsAndResponses({ topic }),
     },
     {
       heading: "Coordination across disciplines",
-      body: `Registrations and compliance often touch more than one domain—for example, corporate changes alongside tax positions. LexBridge can help you sequence work so related filings stay consistent.`,
+      body: complianceServicePageCopy.sectionBodies.coordinationAcrossDisciplines(),
     },
     {
       heading: "Ongoing compliance awareness",
-      body: `After the first milestone, calendars matter: renewals, event-based filings, and annual obligations. Ask about reminders and review cycles so ${topic} does not become a last-minute scramble.`,
+      body: complianceServicePageCopy.sectionBodies.ongoingAwareness({ topic }),
     },
     {
       heading: "Fast intake and follow-up",
-      body: `LexBridge is built for confidential intake and status updates. Request a callback or written next steps so you are not navigating ${topic} requirements alone.`,
+      body: complianceServicePageCopy.sectionBodies.intakeAndFollowup({ topic }),
     },
   ];
 
-  const metaDescription = `${label} — LexBridge intake for registrations, compliance, and IP filings. General information only; not legal or tax advice.`;
+  const metaDescription = complianceServicePageCopy.metaDescription(label);
 
   return {
     slug: tile.slug,
@@ -259,20 +260,21 @@ function buildServicePage(tile: ServiceTile): ServicePageContent {
   }
 
   const label = tile.title;
-  const focus = tile.tagline ? `${tile.tagline.toLowerCase()}` : label.toLowerCase();
+  const labelLower = label.toLowerCase();
+  const focus = tile.tagline ? `${tile.tagline.toLowerCase()}` : labelLower;
 
-  const heroSummary = `LexBridge helps you speak with advocates who regularly work on ${label.toLowerCase()} files. Whether you need a quick consult or end-to-end representation, share your facts and we will align you with counsel experienced in ${focus}.`;
+  const heroSummary = servicePageCopy.heroSummary({ labelLower, focus });
 
-  const articleLead = `Choosing the right advocate for ${label.toLowerCase()} matters can save time, cost, and stress. The overview below explains how LexBridge approaches these cases at a high level. It is general information only—not legal advice for your specific situation.`;
+  const articleLead = servicePageCopy.articleLead({ labelLower, focus });
 
   const sections: ServiceArticleSection[] = [
     {
       heading: "Specialized legal knowledge",
-      body: `Advocates on LexBridge who focus on ${label.toLowerCase()} stay current on procedural rules, evidentiary issues, and forum-specific practice. They can help you understand timelines, documents, and realistic outcomes before you commit to a strategy.`,
+      body: servicePageCopy.sectionBodies.specializedKnowledge({ labelLower, focus }),
     },
     {
       heading: "Personalized approach",
-      body: `No two matters are identical. Counsel can tailor advice to your priorities—whether that is speed, settlement, preserving relationships, or preparing for contested hearings related to ${label.toLowerCase()}.`,
+      body: servicePageCopy.sectionBodies.personalizedApproach({ labelLower, focus }),
     },
     {
       heading: "Skilled negotiation and mediation",
@@ -280,15 +282,15 @@ function buildServicePage(tile: ServiceTile): ServicePageContent {
     },
     {
       heading: "Litigation support when needed",
-      body: `If court or tribunal proceedings are necessary, LexBridge-connected advocates can help with drafting, filings, briefing, and hearing representation—always subject to your instructions and engagement terms.`,
+      body: servicePageCopy.sectionBodies.litigationSupport(),
     },
     {
       heading: "Technology-enabled updates",
-      body: `LexBridge is built for fast, confidential intake and follow-ups. You can request a callback or written next steps so you are not navigating ${label.toLowerCase()} questions alone.`,
+      body: servicePageCopy.sectionBodies.techUpdates({ labelLower, focus }),
     },
   ];
 
-  const metaDescription = `${label} — connect with LexBridge for a confidential consult. General information about how our network approaches ${label.toLowerCase()} matters. Not legal advice.`;
+  const metaDescription = servicePageCopy.metaDescription({ labelLower, focus }, label);
 
   return {
     slug: tile.slug,

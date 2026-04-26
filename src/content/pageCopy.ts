@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 /** Single place to edit marketing copy, page titles, and UI labels shown across the site. */
-export const brandName = "LexBridge";
+export const brandName = "Logal Duniya";
 
 export const layoutSiteMeta: Metadata = {
   title: {
