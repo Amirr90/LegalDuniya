@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { draftMode } from "next/headers";
 import { AdvocatesShowcase } from "@/components/sections/AdvocatesShowcase";
 import { ClientLogos } from "@/components/sections/ClientLogos";
 import { ContactStrip } from "@/components/sections/ContactStrip";
@@ -38,7 +39,11 @@ import { whatsappUrl } from "@/lib/whatsapp";
 export const revalidate = 60;
 
 export default async function Home() {
-  const [home, site] = await Promise.all([getHomePage(), getSiteSettings()]);
+  const { isEnabled: isDraft } = await draftMode();
+  const [home, site] = await Promise.all([
+    getHomePage({ draft: isDraft }),
+    getSiteSettings(),
+  ]);
 
   // CMS-driven layout (admin-controlled)
   if (home && home.layout && home.layout.length > 0) {

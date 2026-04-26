@@ -29,6 +29,29 @@ export default buildConfig({
     meta: {
       titleSuffix: " · LexBridge admin",
     },
+    livePreview: {
+      url: ({ data, collectionConfig, globalConfig }) => {
+        const base =
+          process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "http://localhost:3000";
+        const target = (path: string) =>
+          `${base}/api/preview?slug=${encodeURIComponent(path)}`;
+        if (globalConfig?.slug === "home-page") {
+          return target("/");
+        }
+        if (collectionConfig?.slug === "services") {
+          const slug = (data as { slug?: string } | undefined)?.slug;
+          return target(slug ? `/service/${slug}` : "/");
+        }
+        return target("/");
+      },
+      breakpoints: [
+        { label: "Mobile", name: "mobile", width: 375, height: 667 },
+        { label: "Tablet", name: "tablet", width: 768, height: 1024 },
+        { label: "Desktop", name: "desktop", width: 1440, height: 900 },
+      ],
+      collections: ["services"],
+      globals: ["home-page"],
+    },
   },
   routes: {
     admin: "/admin",

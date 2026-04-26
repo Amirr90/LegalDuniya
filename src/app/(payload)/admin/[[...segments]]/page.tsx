@@ -1,11 +1,7 @@
 /* THIS FILE WAS GENERATED FOR PAYLOAD CMS — KEEP IN SYNC WITH PAYLOAD UPGRADES */
 import config from "@payload-config";
 import type { Metadata } from "next";
-import {
-  generatePageMetadata,
-  RootPage,
-  type GenerateViewMetadata,
-} from "@payloadcms/next/views";
+import { generatePageMetadata, RootPage } from "@payloadcms/next/views";
 
 import { importMap } from "../importMap.js";
 
@@ -18,15 +14,12 @@ type Args = {
   }>;
 };
 
-export const generateMetadata = ({
-  params,
-  searchParams,
-}: Args): Promise<Metadata> =>
-  (generatePageMetadata as GenerateViewMetadata)({
+export const generateMetadata = ({ params, searchParams }: Args): Promise<Metadata> =>
+  generatePageMetadata({
     config,
     params,
     searchParams,
-  });
+  } as unknown as Parameters<typeof generatePageMetadata>[0]);
 
 const Page = ({ params, searchParams }: Args) =>
   RootPage({ config, importMap, params, searchParams });

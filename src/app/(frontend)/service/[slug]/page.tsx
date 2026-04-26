@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { ServiceLeadForm } from "@/components/service/ServiceLeadForm";
 import { Container } from "@/components/ui/Container";
@@ -20,7 +21,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const page = await getServiceBySlug(slug);
+  const { isEnabled: isDraft } = await draftMode();
+  const page = await getServiceBySlug(slug, { draft: isDraft });
   if (!page) {
     return { title: serviceLandingPage.metadataFallbackTitle };
   }
@@ -32,8 +34,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ServiceLandingPage({ params }: PageProps) {
   const { slug } = await params;
+  const { isEnabled: isDraft } = await draftMode();
   const [page, advocates, site] = await Promise.all([
-    getServiceBySlug(slug),
+    getServiceBySlug(slug, { draft: isDraft }),
     getAdvocates(),
     getSiteSettings(),
   ]);

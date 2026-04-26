@@ -5,7 +5,9 @@ import { ChatWidget } from "@/components/chat/ChatWidget";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { JsonLd } from "@/components/site/JsonLd";
+import { ThemeStyle } from "@/components/site/ThemeStyle";
 import { layoutSiteMeta } from "@/content/pageCopy";
+import { getSiteSettings } from "@/lib/cms";
 import { getSiteUrl } from "@/lib/siteUrl";
 
 const crimson = Crimson_Pro({
@@ -22,21 +24,53 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: getSiteUrl(),
-  ...layoutSiteMeta,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const titleDefault = `${settings.brandName} | Talk to verified lawyers`;
+  const baseTitle = layoutSiteMeta.title;
+  const inheritedTitle =
+    baseTitle && typeof baseTitle === "object" && "default" in baseTitle && baseTitle.default
+      ? baseTitle
+      : { default: titleDefault, template: `%s | ${settings.brandName}` };
 
-export default function RootLayout({
+  return {
+    metadataBase: getSiteUrl(),
+    ...layoutSiteMeta,
+    title: inheritedTitle,
+    icons: settings.favicon?.url
+      ? {
+          icon: [{ url: settings.favicon.url }],
+        }
+      : layoutSiteMeta.icons,
+    openGraph: {
+      ...layoutSiteMeta.openGraph,
+      images: settings.ogImage?.url
+        ? [
+            {
+              url: settings.ogImage.url,
+              alt: settings.ogImage.alt || settings.brandName,
+            },
+          ]
+        : layoutSiteMeta.openGraph?.images,
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="en"
       className={`${crimson.variable} ${dmSans.variable} h-full scroll-smooth antialiased`}
     >
+      <head>
+        <ThemeStyle settings={settings} />
+      </head>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
         <JsonLd />
         <Header />

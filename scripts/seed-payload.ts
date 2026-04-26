@@ -293,7 +293,6 @@ async function seed() {
       label: it.label,
       menuRoot: "headerStripLeft",
       href: it.href,
-      icon: it.icon,
       order: i,
     });
   }
@@ -303,7 +302,6 @@ async function seed() {
       label: it.label,
       menuRoot: "headerStripRight",
       href: it.href,
-      icon: it.icon,
       order: i,
     });
   }

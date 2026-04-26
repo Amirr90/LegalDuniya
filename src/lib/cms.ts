@@ -388,53 +388,63 @@ export const getAllServiceSlugs = cache(async (): Promise<string[]> => {
   return services.map((s) => s.slug);
 });
 
-export const getServiceBySlug = cache(async (slug: string): Promise<ServiceLanding | null> => {
-  const payload = await tryGetPayload();
-  if (payload) {
-    try {
-      const res = await payload.find({
-        collection: "services",
-        where: { slug: { equals: slug } },
-        limit: 1,
-        depth: 1,
-      });
-      const doc = res.docs[0] as Record<string, unknown> | undefined;
-      if (doc) {
-        const heroImage = mediaToImageRef(doc.heroImage);
-        const sectionsRaw = (doc.sections as Array<{ heading: string; body: string }> | undefined) ?? [];
-        const cmsSections = sectionsRaw.length ? sectionsRaw : null;
-        if (cmsSections && cmsSections.length > 0 && (doc.heroSummary || doc.articleLead)) {
-          return {
-            slug: doc.slug as string,
-            title: doc.title as string,
-            tagline: typeof doc.tagline === "string" ? doc.tagline : undefined,
-            heroImageSrc: heroImage?.url ?? FALLBACK_TILE_IMAGE,
-            heroSummary: (doc.heroSummary as string) ?? "",
-            articleLead: (doc.articleLead as string) ?? "",
-            sections: cmsSections.map((s) => ({ heading: s.heading, body: s.body })),
-            metaDescription: (doc.metaDescription as string) ?? "",
-          };
+const _getServiceBySlug = cache(
+  async (slug: string, draft: boolean): Promise<ServiceLanding | null> => {
+    const payload = await tryGetPayload();
+    if (payload) {
+      try {
+        const res = await payload.find({
+          collection: "services",
+          where: { slug: { equals: slug } },
+          limit: 1,
+          depth: 1,
+          draft,
+        });
+        const doc = res.docs[0] as Record<string, unknown> | undefined;
+        if (doc) {
+          const heroImage = mediaToImageRef(doc.heroImage);
+          const sectionsRaw =
+            (doc.sections as Array<{ heading: string; body: string }> | undefined) ?? [];
+          const cmsSections = sectionsRaw.length ? sectionsRaw : null;
+          if (cmsSections && cmsSections.length > 0 && (doc.heroSummary || doc.articleLead)) {
+            return {
+              slug: doc.slug as string,
+              title: doc.title as string,
+              tagline: typeof doc.tagline === "string" ? doc.tagline : undefined,
+              heroImageSrc: heroImage?.url ?? FALLBACK_TILE_IMAGE,
+              heroSummary: (doc.heroSummary as string) ?? "",
+              articleLead: (doc.articleLead as string) ?? "",
+              sections: cmsSections.map((s) => ({ heading: s.heading, body: s.body })),
+              metaDescription: (doc.metaDescription as string) ?? "",
+            };
+          }
+          // No body content yet; fall back to legacy auto-generated content for this slug.
+          const fallback = legacyGetServicePage(slug);
+          if (fallback) {
+            return mapLegacyServicePage(fallback, {
+              heroImageSrc: heroImage?.url ?? fallback.heroImageSrc,
+              tagline: typeof doc.tagline === "string" ? doc.tagline : undefined,
+              metaDescription: (doc.metaDescription as string) || fallback.metaDescription,
+            });
+          }
         }
-        // No body content yet; fall back to legacy auto-generated content for this slug.
-        const fallback = legacyGetServicePage(slug);
-        if (fallback) {
-          return mapLegacyServicePage(fallback, {
-            heroImageSrc: heroImage?.url ?? fallback.heroImageSrc,
-            tagline: typeof doc.tagline === "string" ? doc.tagline : undefined,
-            metaDescription:
-              (doc.metaDescription as string) || fallback.metaDescription,
-          });
-        }
+      } catch {
+        // fall through to legacy
       }
-    } catch {
-      // fall through to legacy
     }
-  }
 
-  const fallback = legacyGetServicePage(slug);
-  if (!fallback) return null;
-  return mapLegacyServicePage(fallback);
-});
+    const fallback = legacyGetServicePage(slug);
+    if (!fallback) return null;
+    return mapLegacyServicePage(fallback);
+  },
+);
+
+export async function getServiceBySlug(
+  slug: string,
+  options: { draft?: boolean } = {},
+): Promise<ServiceLanding | null> {
+  return _getServiceBySlug(slug, options.draft ?? false);
+}
 
 function mapLegacyServicePage(
   legacy: ServicePageContent,
@@ -716,9 +726,9 @@ export const getMenuTree = cache(async (root: string): Promise<MenuLink[]> => {
 function legacyMenuTree(root: string): MenuLink[] {
   switch (root) {
     case "headerStripLeft":
-      return headerServiceStripLinks.left.map((it) => ({ label: it.label, href: it.href, icon: it.icon }));
+      return headerServiceStripLinks.left.map((it) => ({ label: it.label, href: it.href }));
     case "headerStripRight":
-      return headerServiceStripLinks.right.map((it) => ({ label: it.label, href: it.href, icon: it.icon }));
+      return headerServiceStripLinks.right.map((it) => ({ label: it.label, href: it.href }));
     case "serviceCategories":
       return serviceCategories.map((it) => ({ label: it.label, href: it.href }));
     case "comprehensiveLegalSolutions":
@@ -762,17 +772,26 @@ export type HomePageBlock = {
   [key: string]: unknown;
 };
 
-export const getHomePage = cache(async (): Promise<{ layout: HomePageBlock[] } | null> => {
-  const payload = await tryGetPayload();
-  if (!payload) return null;
-  try {
-    const doc = (await payload.findGlobal({
-      slug: "home-page",
-      depth: 2,
-    })) as { layout?: HomePageBlock[] } | null;
-    if (!doc?.layout || doc.layout.length === 0) return null;
-    return { layout: doc.layout };
-  } catch {
-    return null;
-  }
-});
+const _getHomePage = cache(
+  async (draft: boolean): Promise<{ layout: HomePageBlock[] } | null> => {
+    const payload = await tryGetPayload();
+    if (!payload) return null;
+    try {
+      const doc = (await payload.findGlobal({
+        slug: "home-page",
+        depth: 2,
+        draft,
+      })) as { layout?: HomePageBlock[] } | null;
+      if (!doc?.layout || doc.layout.length === 0) return null;
+      return { layout: doc.layout };
+    } catch {
+      return null;
+    }
+  },
+);
+
+export async function getHomePage(
+  options: { draft?: boolean } = {},
+): Promise<{ layout: HomePageBlock[] } | null> {
+  return _getHomePage(options.draft ?? false);
+}

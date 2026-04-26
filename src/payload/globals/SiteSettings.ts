@@ -1,6 +1,6 @@
 import type { GlobalConfig } from "payload";
 
-import { anyone, isAdmin, isAuthenticated } from "../access";
+import { anyone, isAdminField, isAuthenticated } from "../access";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
@@ -151,7 +151,7 @@ export const SiteSettings: GlobalConfig = {
                 },
               ],
               access: {
-                update: isAdmin,
+                update: isAdminField,
               },
               admin: {
                 description: "Only admins can change global theme tokens.",
