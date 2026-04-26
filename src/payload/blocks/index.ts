@@ -1,0 +1,9 @@
+export { HeroBlock } from "./Hero";
+export { StatsStripBlock } from "./StatsStrip";
+export { ServiceTilesBlock } from "./ServiceTiles";
+export { AdvocatesShowcaseBlock } from "./AdvocatesShowcase";
+export { LegalUpdatesBlock } from "./LegalUpdates";
+export { TestimonialsBlock } from "./Testimonials";
+export { ContactStripBlock } from "./ContactStrip";
+export { ClientLogosBlock } from "./ClientLogos";
+export { RichTextBlock } from "./RichText";

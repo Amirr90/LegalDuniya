@@ -1,6 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ServiceTile } from "@/content/servicePages";
+
+export type ServiceCatalogTile = {
+  title: string;
+  slug: string;
+  imageSrc: string;
+  tagline?: string;
+};
 
 const defaultImageSizes =
   "(min-width: 1280px) 22vw, (min-width: 1024px) 28vw, (min-width: 640px) 42vw, 100vw";
@@ -28,7 +34,7 @@ function LegalBadgeIcon({ className }: { className?: string }) {
 }
 
 type ServiceCatalogCardProps = {
-  tile: ServiceTile;
+  tile: ServiceCatalogTile;
   /** Pass tighter `sizes` when the card sits in a denser grid (e.g. home). */
   imageSizes?: string;
 };

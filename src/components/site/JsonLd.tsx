@@ -1,4 +1,4 @@
-import { contactChannels } from "@/content/site";
+import { contactChannels, headOfficeAddressFull } from "@/content/site";
 import { getSiteUrl } from "@/lib/siteUrl";
 
 export function JsonLd() {
@@ -12,17 +12,17 @@ export function JsonLd() {
     url,
     description:
       "LexBridge connects individuals and businesses with verified advocates for confidential legal consultations.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: headOfficeAddressFull,
+      addressCountry: "IN",
+    },
     contactPoint: [
       {
         "@type": "ContactPoint",
         telephone: tel,
         contactType: "customer service",
         email: contactChannels.emailInfo,
-      },
-      {
-        "@type": "ContactPoint",
-        email: contactChannels.emailCare,
-        contactType: "customer support",
       },
     ],
   };

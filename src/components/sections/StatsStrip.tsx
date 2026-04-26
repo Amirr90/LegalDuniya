@@ -1,9 +1,15 @@
 import { AnimatedStatValue } from "@/components/sections/AnimatedStatValue";
 import { Container } from "@/components/ui/Container";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
-import { stats } from "@/content/site";
 
-export function StatsStrip() {
+export type StatItem = { value: string; label: string };
+
+export type StatsStripProps = {
+  stats: readonly StatItem[];
+};
+
+export function StatsStrip({ stats }: StatsStripProps) {
+  if (!stats.length) return null;
   return (
     <div className="border-b border-border bg-surface">
       <Container className="py-10">

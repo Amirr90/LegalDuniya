@@ -5,7 +5,17 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
+import { Advocates } from "./src/payload/collections/Advocates";
+import { ClientLogos } from "./src/payload/collections/ClientLogos";
+import { LegalUpdates } from "./src/payload/collections/LegalUpdates";
+import { Media } from "./src/payload/collections/Media";
+import { MenuItems } from "./src/payload/collections/MenuItems";
+import { Offices } from "./src/payload/collections/Offices";
+import { Services } from "./src/payload/collections/Services";
+import { Testimonials } from "./src/payload/collections/Testimonials";
 import { Users } from "./src/payload/collections/Users";
+import { HomePage } from "./src/payload/globals/HomePage";
+import { SiteSettings } from "./src/payload/globals/SiteSettings";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -26,8 +36,18 @@ export default buildConfig({
     graphQL: "/api/payload/graphql",
     graphQLPlayground: "/api/payload/graphql-playground",
   },
-  collections: [Users],
-  globals: [],
+  collections: [
+    Users,
+    Media,
+    Services,
+    Advocates,
+    Testimonials,
+    LegalUpdates,
+    Offices,
+    ClientLogos,
+    MenuItems,
+  ],
+  globals: [SiteSettings, HomePage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? "dev-only-secret-change-me",
   typescript: {

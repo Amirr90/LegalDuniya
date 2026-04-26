@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { getContactTopicLabel } from "@/content/contactTopics";
 import { contactPage } from "@/content/pageCopy";
-import { contactChannels, offices } from "@/content/site";
+import { contactChannels, headOfficeMapsUrl, offices } from "@/content/site";
 
 export const metadata: Metadata = contactPage.metadata;
 
@@ -50,18 +51,10 @@ export default async function ContactPage({ searchParams }: PageProps) {
                   <dt className="text-xs font-semibold uppercase tracking-wide text-muted">
                     {contactPage.emailLabel}
                   </dt>
-                  <dd className="mt-1 space-y-1">
-                    <div>
-                      <a href={`mailto:${contactChannels.emailInfo}`} className="hover:text-accent">
-                        {contactChannels.emailInfo}
-                      </a>
-                    </div>
-                    <div>
-                      <span className="text-muted">{contactPage.carePrefix}</span>
-                      <a href={`mailto:${contactChannels.emailCare}`} className="hover:text-accent">
-                        {contactChannels.emailCare}
-                      </a>
-                    </div>
+                  <dd className="mt-1">
+                    <a href={`mailto:${contactChannels.emailInfo}`} className="hover:text-accent">
+                      {contactChannels.emailInfo}
+                    </a>
                   </dd>
                 </div>
               </dl>
@@ -77,6 +70,14 @@ export default async function ContactPage({ searchParams }: PageProps) {
                           <div key={line}>{line}</div>
                         ))}
                       </div>
+                      <ButtonLink
+                        href={headOfficeMapsUrl}
+                        variant="outline"
+                        external
+                        className="mt-4 w-full sm:w-auto"
+                      >
+                        {contactPage.mapCta}
+                      </ButtonLink>
                     </div>
                   ))}
                 </div>

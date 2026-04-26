@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { brandName, footerCopy } from "@/content/pageCopy";
-import { contactChannels, offices, socialProfiles, whatsappPrefillChat } from "@/content/site";
+import { contactChannels, headOfficeMapsUrl, offices, socialProfiles, whatsappPrefillChat } from "@/content/site";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 const waChat = whatsappUrl(contactChannels.whatsappE164, whatsappPrefillChat);
@@ -124,12 +124,6 @@ export function Footer() {
                 {contactChannels.emailInfo}
               </a>
             </li>
-            <li>
-              <span className="text-foreground">{footerCopy.careLabel}</span>{" "}
-              <a href={`mailto:${contactChannels.emailCare}`} className="hover:text-accent">
-                {contactChannels.emailCare}
-              </a>
-            </li>
           </ul>
           <div className="mt-6 space-y-4">
             {offices.map((office) => (
@@ -142,6 +136,14 @@ export function Footer() {
                     <div key={line}>{line}</div>
                   ))}
                 </div>
+                <a
+                  href={headOfficeMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-block text-xs font-medium text-accent hover:underline"
+                >
+                  {footerCopy.mapLinkLabel}
+                </a>
               </div>
             ))}
           </div>

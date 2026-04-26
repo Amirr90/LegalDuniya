@@ -1,8 +1,10 @@
 import type { MetadataRoute } from "next";
-import { getAllServiceSlugs } from "@/content/servicePages";
+import { getAllServiceSlugs } from "@/lib/cms";
 import { getSiteUrl } from "@/lib/siteUrl";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 60;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const origin = getSiteUrl().origin;
   const staticPaths = ["", "/about", "/contact", "/privacy", "/terms", "/cookies", "/services"];
 
@@ -11,7 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
   }));
 
-  for (const slug of getAllServiceSlugs()) {
+  const slugs = await getAllServiceSlugs();
+  for (const slug of slugs) {
     entries.push({
       url: `${origin}/service/${slug}`,
       lastModified: new Date(),

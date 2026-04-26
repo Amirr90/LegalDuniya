@@ -178,18 +178,19 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+/** Single line for maps search / schema.org (full locality). */
+export const headOfficeAddressFull =
+  "Shop No. FF-5, Galaxy Apartment, Thakurganj, Hardoi Road, Lucknow, India";
+
+export const headOfficeMapsUrl = publicEnv(
+  "NEXT_PUBLIC_HEAD_OFFICE_MAPS_URL",
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(headOfficeAddressFull)}`,
+);
+
 export const offices: Office[] = [
   {
-    label: "Corporate office (Lucknow)",
-    lines: ["Sector 8, House 166", "Indira Nagar, Lucknow 226016"],
-  },
-  {
-    label: "Regional office (Delhi)",
-    lines: ["D17, 3rd Floor, Mata Wali Gali", "Old Gupta Colony, New Delhi 110009"],
-  },
-  {
-    label: "Regional office (Hyderabad)",
-    lines: ["302, Plot 175, Balaji Nagar", "Ameenpur, Hyderabad 502032"],
+    label: "Head office",
+    lines: ["Shop No. FF-5, Galaxy Apartment", "Thakurganj, Hardoi Road, Lucknow"],
   },
 ];
 
@@ -206,11 +207,11 @@ export const clientLogos = [
 ] as const;
 
 export const contactChannels = {
-  phone: publicEnv("NEXT_PUBLIC_CONTACT_PHONE", "+91 74993 83674"),
+  phone: publicEnv("NEXT_PUBLIC_CONTACT_PHONE", "+91 99566 66699"),
   /** WhatsApp Business number, digits only (e.g. India 919876543210). */
-  whatsappE164: publicEnv("NEXT_PUBLIC_WHATSAPP_E164", "919876543210"),
-  emailInfo: publicEnv("NEXT_PUBLIC_EMAIL_INFO", "info@example.com"),
-  emailCare: publicEnv("NEXT_PUBLIC_EMAIL_CARE", "care@example.com"),
+  whatsappE164: publicEnv("NEXT_PUBLIC_WHATSAPP_E164", "919956666699"),
+  emailInfo: publicEnv("NEXT_PUBLIC_EMAIL_INFO", "legaldunia@gmail.com"),
+  emailCare: publicEnv("NEXT_PUBLIC_EMAIL_CARE", "legaldunia@gmail.com"),
 };
 
 /** Full profile URLs; override in `.env` with `NEXT_PUBLIC_*`. */

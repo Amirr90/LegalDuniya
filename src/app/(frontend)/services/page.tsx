@@ -3,11 +3,23 @@ import Link from "next/link";
 import { ServiceCatalogCard } from "@/components/service/ServiceCatalogCard";
 import { Container } from "@/components/ui/Container";
 import { servicesCatalogPage } from "@/content/pageCopy";
-import { homeServiceSections, servicesCatalogHref } from "@/content/servicePages";
+import { servicesCatalogHref } from "@/content/servicePages";
+import { getFeaturedServices, getSpecializedServices } from "@/lib/cms";
 
 export const metadata: Metadata = servicesCatalogPage.metadata;
+export const revalidate = 60;
 
-export default function ServicesCatalogPage() {
+export default async function ServicesCatalogPage() {
+  const [featured, specialized] = await Promise.all([
+    getFeaturedServices(),
+    getSpecializedServices(),
+  ]);
+
+  const sections = [
+    { id: "top-services", title: "Top services", tiles: featured },
+    { id: "specialized-services", title: "Specialized services", tiles: specialized },
+  ].filter((s) => s.tiles.length > 0);
+
   return (
     <div className="min-h-0 flex-1">
       <Container className="pb-20 pt-8 sm:pt-10">
@@ -22,7 +34,7 @@ export default function ServicesCatalogPage() {
             aria-label={servicesCatalogPage.jumpNavAriaLabel}
             className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0"
           >
-            {homeServiceSections.map((sec) => (
+            {sections.map((sec) => (
               <Link
                 key={sec.id}
                 href={`${servicesCatalogHref}#${sec.id}`}
@@ -43,7 +55,7 @@ export default function ServicesCatalogPage() {
         </header>
 
         <div className="mt-16 flex flex-col gap-20 sm:mt-20 sm:gap-24">
-          {homeServiceSections.map((section) => (
+          {sections.map((section) => (
             <section key={section.id} id={section.id} className="scroll-mt-28">
               <div className="mb-5 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-3">
                 <h2 className="max-w-[min(100%,28rem)] font-display text-xl font-semibold text-foreground sm:text-2xl">

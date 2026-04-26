@@ -42,10 +42,10 @@ function ServiceStripLink({
   return (
     <Link
       href={item.href}
-      className="inline-flex shrink-0 items-center whitespace-nowrap rounded-lg border border-border bg-background/50 px-3 py-1.5 text-xs font-medium text-foreground/90 transition hover:border-accent/45 hover:text-accent focus-visible:border-accent focus-visible:text-accent"
+      className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-border bg-background/50 px-4 py-2 text-xs font-semibold text-foreground transition hover:border-accent/60 hover:text-accent focus-visible:outline-none"
       onClick={onClick}
     >
-      <span>{item.label}</span>
+      {item.label}
     </Link>
   );
 }

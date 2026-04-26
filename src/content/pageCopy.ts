@@ -67,8 +67,8 @@ export const contactPage = {
     "Share a short summary of your matter and preferred contact window. For emergencies, call the number below—our intake desk will prioritize time-sensitive criminal and cyber incidents.",
   phoneLabel: "Phone",
   emailLabel: "Email",
-  carePrefix: "Care: ",
-  officesHeading: "Offices",
+  officesHeading: "Head office",
+  mapCta: "Open in Google Maps",
 } as const;
 
 export const termsPage = {
@@ -150,7 +150,8 @@ export const footerCopy = {
   whatsappLabel: "WhatsApp:",
   whatsappLink: "Chat with a lawyer",
   emailLabel: "Email:",
-  careLabel: "Care:",
+  /** Shown next to head office address in the footer. */
+  mapLinkLabel: "Directions",
   copyright: (year: number) => `© ${year} ${brandName}. All rights reserved.`,
   inspiredNote:
     "Inspired by public legal marketplace patterns—not affiliated with any specific operator.",
@@ -191,11 +192,13 @@ export const testimonialsCopy = {
 
 export const contactStripCopy = {
   eyebrow: "Get in touch",
-  title: "Offices in Lucknow, Delhi, and Hyderabad",
-  subtitle: "Prefer a call? Our intake team routes you to the right practice group in minutes—not days.",
+  title: "Head office in Lucknow",
+  subtitle:
+    "Visit us at Thakurganj or reach out by phone, email, or WhatsApp—our intake team routes you to the right practice group quickly.",
   callCta: "Call now",
   whatsappCta: "WhatsApp us",
   emailCta: "Email us",
+  mapCta: "Open in Google Maps",
 } as const;
 
 export const clientLogosCopy = {

@@ -2,20 +2,33 @@ import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Section } from "@/components/ui/Section";
 import { StaggerReveal } from "@/components/ui/StaggerReveal";
-import { testimonialsCopy } from "@/content/pageCopy";
-import { testimonials } from "@/content/site";
 
-export function Testimonials() {
+export type TestimonialCard = {
+  quote: string;
+  name: string;
+  role: string;
+  location?: string;
+};
+
+export type TestimonialsProps = {
+  eyebrow: string;
+  title: string;
+  disclaimer?: string;
+  testimonials: readonly TestimonialCard[];
+};
+
+export function Testimonials({ eyebrow, title, disclaimer, testimonials }: TestimonialsProps) {
+  if (!testimonials.length) return null;
   return (
     <Section disableReveal>
       <Container>
         <ScrollReveal>
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{testimonialsCopy.eyebrow}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">{eyebrow}</p>
             <h2 className="mt-3 font-display text-3xl font-semibold text-foreground sm:text-4xl">
-              {testimonialsCopy.title}
+              {title}
             </h2>
-            <p className="mt-3 text-xs text-muted">{testimonialsCopy.disclaimer}</p>
+            {disclaimer ? <p className="mt-3 text-xs text-muted">{disclaimer}</p> : null}
           </div>
         </ScrollReveal>
 
