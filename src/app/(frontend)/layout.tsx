@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Crimson_Pro, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ExtensionErrorGuard } from "@/components/site/ExtensionErrorGuard";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { JsonLd } from "@/components/site/JsonLd";
@@ -72,6 +73,7 @@ export default async function RootLayout({
         <ThemeStyle settings={settings} />
       </head>
       <body className="min-h-full flex flex-col bg-background font-sans text-foreground">
+        <ExtensionErrorGuard />
         <JsonLd />
         <Header />
         <main className="flex-1">{children}</main>
