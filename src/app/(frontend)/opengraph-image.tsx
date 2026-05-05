@@ -24,7 +24,7 @@ export default function OpenGraphImage() {
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        <div style={{ fontSize: 56, fontWeight: 700, letterSpacing: "-0.02em" }}>LexBridge</div>
+        <div style={{ fontSize: 56, fontWeight: 700, letterSpacing: "-0.02em" }}>Legal Duniya</div>
         <div style={{ marginTop: 16, fontSize: 28, color: "#c4b89a", maxWidth: 900 }}>
           Verified advocates — confidential consults across India
         </div>

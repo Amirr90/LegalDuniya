@@ -65,6 +65,14 @@ export const MenuItems: CollectionConfig = {
       },
     },
     {
+      name: "fullDescription",
+      type: "textarea",
+      admin: {
+        description:
+          "Optional long description shown on the destination service page when this menu item is clicked. Add this for service-linked menu entries.",
+      },
+    },
+    {
       name: "icon",
       type: "text",
       admin: {

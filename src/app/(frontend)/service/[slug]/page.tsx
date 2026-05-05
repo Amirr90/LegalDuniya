@@ -10,6 +10,7 @@ import { getAdvocates, getAllServiceSlugs, getServiceBySlug, getSiteSettings } f
 
 type PageProps = {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ menuDesc?: string | string[] }>;
 };
 
 export const revalidate = 60;
@@ -32,8 +33,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function ServiceLandingPage({ params }: PageProps) {
+export default async function ServiceLandingPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const { isEnabled: isDraft } = await draftMode();
   const [page, advocates, site] = await Promise.all([
     getServiceBySlug(slug, { draft: isDraft }),
@@ -43,6 +45,10 @@ export default async function ServiceLandingPage({ params }: PageProps) {
   if (!page) {
     notFound();
   }
+
+  const menuDescParam = resolvedSearchParams?.menuDesc;
+  const menuDescription = Array.isArray(menuDescParam) ? menuDescParam[0] : menuDescParam;
+  const heroSummary = menuDescription?.trim() || page.heroSummary;
 
   const tel = site.contact.phone.replace(/\s/g, "");
 
@@ -64,7 +70,7 @@ export default async function ServiceLandingPage({ params }: PageProps) {
           <h1 className="mt-6 max-w-4xl font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl md:text-5xl">
             {page.title}
           </h1>
-          <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">{page.heroSummary}</p>
+          <p className="mt-5 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">{heroSummary}</p>
         </Container>
       </section>
 

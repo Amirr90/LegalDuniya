@@ -78,7 +78,7 @@ export function ServiceLeadForm({ serviceTitle, serviceSlug }: ServiceLeadFormPr
       /* mailto fallback */
     }
 
-    const subject = encodeURIComponent(`LexBridge — ${serviceTitle} — ${name}`);
+    const subject = encodeURIComponent(`Legal Duniya — ${serviceTitle} — ${name}`);
     const body = encodeURIComponent(plain);
     window.location.href = `mailto:${contactChannels.emailInfo}?subject=${subject}&body=${body}`;
     setStatus("sent");

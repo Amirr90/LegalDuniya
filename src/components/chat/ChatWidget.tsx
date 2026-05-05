@@ -16,7 +16,7 @@ type ChatLine = {
 };
 
 const WELCOME =
-  "Hi, I am the LexBridge assistant. I can answer common questions about how LexBridge works. This is general information only—not legal advice. For your specific situation, please speak with a qualified lawyer via our Contact page.";
+  "Hi, I am the Legal Duniya assistant. I can answer common questions about how Legal Duniya works. This is general information only-not legal advice. For your specific situation, please speak with a qualified lawyer via our Contact page.";
 
 function newId(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -121,11 +121,11 @@ export function ChatWidget() {
           id={panelId}
           className="pointer-events-auto flex max-h-[min(32rem,70vh)] w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-2xl border border-border bg-surface-elevated shadow-xl shadow-black/40"
           role="dialog"
-          aria-label="LexBridge chat assistant"
+          aria-label="Legal Duniya chat assistant"
         >
           <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-foreground">LexBridge assistant</p>
+              <p className="text-sm font-semibold text-foreground">Legal Duniya assistant</p>
               <p className="text-xs text-muted">General info only</p>
             </div>
             <button

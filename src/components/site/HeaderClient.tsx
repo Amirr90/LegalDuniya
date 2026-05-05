@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, type FocusEvent } from "react";
+import { ServiceLeadForm } from "@/components/service/ServiceLeadForm";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { HeaderServiceSearch } from "@/components/site/HeaderServiceSearch";
@@ -15,6 +16,41 @@ export type HeaderClientProps = {
   allServicesMenuItem: { href: string; label: string };
   menus: HeaderMenusData;
 };
+
+const SERVICE_ROUTE_PREFIX = "/service/";
+type PropertySuggestedDialogKey = "property-document" | "property-services";
+
+const propertyDialogContent: Record<
+  PropertySuggestedDialogKey,
+  { title: string; description: string; serviceTitle: string; serviceSlug: string }
+> = {
+  "property-document": {
+    title: "Property Document Enquiry",
+    description:
+      "Share your property document details and our team will connect you with the right legal expert.",
+    serviceTitle: "Property Document",
+    serviceSlug: "property-document",
+  },
+  "property-services": {
+    title: "Property Services Enquiry",
+    description:
+      "Tell us which property support you need and we will route your request to the correct service desk.",
+    serviceTitle: "Property Services",
+    serviceSlug: "property-services",
+  },
+};
+
+function withMenuDescription(href: string, fullDescription?: string): string {
+  if (!fullDescription || !href.startsWith(SERVICE_ROUTE_PREFIX)) {
+    return href;
+  }
+  const [pathAndQuery, hashPart] = href.split("#", 2);
+  const [pathOnly, queryPart] = pathAndQuery.split("?", 2);
+  const searchParams = new URLSearchParams(queryPart ?? "");
+  searchParams.set("menuDesc", fullDescription);
+  const query = searchParams.toString();
+  return `${pathOnly}${query ? `?${query}` : ""}${hashPart ? `#${hashPart}` : ""}`;
+}
 
 function HeaderWhatsAppGlyph({ className }: { className?: string }) {
   return (
@@ -76,6 +112,7 @@ export function HeaderClient({
   const [propertyActiveId, setPropertyActiveId] = useState(defaultPropertyCategoryId);
   const [mobilePropertyOpen, setMobilePropertyOpen] = useState(false);
   const [mobilePropertyCategoryId, setMobilePropertyCategoryId] = useState<string | null>(null);
+  const [propertyDialogKey, setPropertyDialogKey] = useState<PropertySuggestedDialogKey | null>(null);
 
   type DesktopMenuKey = "services" | "business" | "lawyer" | "property";
   const [desktopMenuOpen, setDesktopMenuOpen] = useState<DesktopMenuKey | null>(null);
@@ -174,6 +211,32 @@ export function HeaderClient({
     };
   }, []);
 
+  useEffect(() => {
+    if (!propertyDialogKey) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setPropertyDialogKey(null);
+      }
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [propertyDialogKey]);
+
+  const openPropertyDialog = (itemLabel: string) => {
+    const normalized = itemLabel.trim().toLowerCase();
+    const nextKey: PropertySuggestedDialogKey =
+      normalized === "property document" ? "property-document" : "property-services";
+    closeDesktopMenuNow();
+    setOpen(false);
+    setPropertyDialogKey(nextKey);
+  };
+
+  const activePropertyDialog = propertyDialogKey ? propertyDialogContent[propertyDialogKey] : null;
+
   return (
     <header
       className={`sticky top-0 z-40 border-b backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-500 ease-out ${
@@ -234,7 +297,7 @@ export function HeaderClient({
               {serviceCategories.map((item) => (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={withMenuDescription(item.href, item.fullDescription)}
                   className="block rounded-lg px-3 py-2 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                   onClick={closeDesktopMenuNow}
                 >
@@ -249,7 +312,7 @@ export function HeaderClient({
                 {comprehensiveLegalSolutionLinks.map((item) => (
                   <Link
                     key={item.href}
-                    href={item.href}
+                    href={withMenuDescription(item.href, item.fullDescription)}
                     className="block rounded-lg px-3 py-2 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                     onClick={closeDesktopMenuNow}
                   >
@@ -382,7 +445,7 @@ export function HeaderClient({
                       {activeBusinessCategory?.items.map((item) => (
                         <li key={item.href}>
                           <Link
-                            href={item.href}
+                            href={withMenuDescription(item.href, item.fullDescription)}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                             onClick={closeDesktopMenuNow}
                           >
@@ -483,7 +546,7 @@ export function HeaderClient({
                       {activeLawyerCategory?.items.map((item) => (
                         <li key={item.href}>
                           <Link
-                            href={item.href}
+                            href={withMenuDescription(item.href, item.fullDescription)}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                             onClick={closeDesktopMenuNow}
                           >
@@ -547,15 +610,15 @@ export function HeaderClient({
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {propertySuggestedLinks.map((item) => (
-                      <Link
+                      <button
                         key={item.href}
-                        href={item.href}
+                        type="button"
                         aria-label={item.ariaLabel}
                         className="rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground/90 hover:border-accent/50 hover:text-accent"
-                        onClick={closeDesktopMenuNow}
+                        onClick={() => openPropertyDialog(item.label)}
                       >
                         {item.label}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -602,7 +665,7 @@ export function HeaderClient({
                       {activePropertyCategory?.items.map((item) => (
                         <li key={item.href}>
                           <Link
-                            href={item.href}
+                            href={withMenuDescription(item.href, item.fullDescription)}
                             className="block rounded-lg px-2 py-1.5 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                             onClick={closeDesktopMenuNow}
                           >
@@ -711,7 +774,7 @@ export function HeaderClient({
             {serviceCategories.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={withMenuDescription(item.href, item.fullDescription)}
                 className="rounded-lg px-2 py-2 text-sm text-muted hover:bg-surface hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
@@ -724,7 +787,7 @@ export function HeaderClient({
             {comprehensiveLegalSolutionLinks.map((item) => (
               <Link
                 key={item.href}
-                href={item.href}
+                href={withMenuDescription(item.href, item.fullDescription)}
                 className="rounded-lg px-2 py-2 text-sm text-muted hover:bg-surface hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
@@ -811,7 +874,7 @@ export function HeaderClient({
                                       {cat.items.map((item) => (
                                         <li key={item.href}>
                                           <Link
-                                            href={item.href}
+                                            href={withMenuDescription(item.href, item.fullDescription)}
                                             className="block rounded-md py-1.5 pl-1 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                                             onClick={() => setOpen(false)}
                                           >
@@ -890,7 +953,7 @@ export function HeaderClient({
                             {cat.items.map((item) => (
                               <li key={item.href}>
                                 <Link
-                                  href={item.href}
+                                  href={withMenuDescription(item.href, item.fullDescription)}
                                   className="block rounded-md py-1.5 pl-1 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                                   onClick={() => setOpen(false)}
                                 >
@@ -947,15 +1010,15 @@ export function HeaderClient({
                     </p>
                     <div className="flex flex-col gap-1">
                       {propertySuggestedLinks.map((item) => (
-                        <Link
+                        <button
                           key={item.href}
-                          href={item.href}
+                          type="button"
                           aria-label={item.ariaLabel}
                           className="rounded-md border border-border bg-surface px-2 py-1.5 text-center text-sm font-medium text-foreground/90 hover:border-accent/50 hover:text-accent"
-                          onClick={() => setOpen(false)}
+                          onClick={() => openPropertyDialog(item.label)}
                         >
                           {item.label}
-                        </Link>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -983,7 +1046,7 @@ export function HeaderClient({
                             {cat.items.map((item) => (
                               <li key={item.href}>
                                 <Link
-                                  href={item.href}
+                                  href={withMenuDescription(item.href, item.fullDescription)}
                                   className="block rounded-md py-1.5 pl-1 text-sm text-foreground/90 hover:bg-surface hover:text-accent"
                                   onClick={() => setOpen(false)}
                                 >
@@ -1029,6 +1092,48 @@ export function HeaderClient({
               </Link>
             </div>
           </Container>
+        </div>
+      ) : null}
+
+      {activePropertyDialog ? (
+        <div
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-background/75 p-4 backdrop-blur-sm"
+          role="presentation"
+          onClick={() => setPropertyDialogKey(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="property-enquiry-dialog-title"
+            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-border bg-background shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3 border-b border-border px-5 py-4">
+              <div>
+                <h2
+                  id="property-enquiry-dialog-title"
+                  className="font-display text-xl font-semibold text-foreground"
+                >
+                  {activePropertyDialog.title}
+                </h2>
+                <p className="mt-1 text-sm text-muted">{activePropertyDialog.description}</p>
+              </div>
+              <button
+                type="button"
+                className="rounded-md border border-border px-2 py-1 text-xs font-semibold text-foreground hover:border-accent/60 hover:text-accent"
+                onClick={() => setPropertyDialogKey(null)}
+                aria-label="Close enquiry dialog"
+              >
+                Close
+              </button>
+            </div>
+            <div className="p-5">
+              <ServiceLeadForm
+                serviceTitle={activePropertyDialog.serviceTitle}
+                serviceSlug={activePropertyDialog.serviceSlug}
+              />
+            </div>
+          </div>
         </div>
       ) : null}
     </header>

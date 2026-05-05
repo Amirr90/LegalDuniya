@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, mode: "client-mailto" as const });
   }
 
-  const subjectParts = ["LexBridge inquiry", data.name];
+  const subjectParts = ["Legal Duniya inquiry", data.name];
   if (data.service) subjectParts.push(`— ${data.service}`);
   const subject = subjectParts.join(" ");
   const text = buildEmailText(data);

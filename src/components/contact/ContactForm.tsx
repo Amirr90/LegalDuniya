@@ -75,7 +75,7 @@ export function ContactForm({ initialTopic }: ContactFormProps) {
       /* fall through to mailto */
     }
 
-    const subject = encodeURIComponent(`LexBridge inquiry from ${name}`);
+    const subject = encodeURIComponent(`Legal Duniya inquiry from ${name}`);
     const body = encodeURIComponent(plainBody);
     window.location.href = `mailto:${contactChannels.emailInfo}?subject=${subject}&body=${body}`;
     setStatus("sent");

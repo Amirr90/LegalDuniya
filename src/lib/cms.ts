@@ -124,6 +124,7 @@ export type MenuLink = {
   href: string;
   icon?: string;
   ariaLabel?: string;
+  fullDescription?: string;
   children?: MenuLink[];
 };
 
@@ -232,8 +233,12 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
 
     const theme = (doc.theme as Partial<SiteSettings["theme"]>) ?? {};
 
+    const rawBrandName = ((doc.brandName as string) || fallback.brandName).trim();
+    const normalizedBrandName =
+      rawBrandName.toLowerCase() === "lexbridge" ? fallback.brandName : rawBrandName;
+
     return {
-      brandName: (doc.brandName as string) || fallback.brandName,
+      brandName: normalizedBrandName,
       tagline: (doc.tagline as string) || fallback.tagline,
       contact: {
         phone: (doc.phone as string) || fallback.contact.phone,
@@ -661,6 +666,7 @@ type MenuItemDoc = {
   parent?: { id: string | number } | string | number | null;
   icon?: string;
   ariaLabel?: string;
+  fullDescription?: string;
   order?: number;
 };
 
@@ -685,6 +691,7 @@ function buildTree(items: MenuItemDoc[]): MenuLink[] {
       href: resolveHref(item),
       icon: item.icon,
       ariaLabel: item.ariaLabel,
+      fullDescription: item.fullDescription,
       children: node.children,
     };
     const parentId =

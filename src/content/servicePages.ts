@@ -40,7 +40,7 @@ export const homeServiceSections: ServiceSectionSpec[] = [
     eyebrow: "Our top services",
     title: "Comprehensive legal solutions",
     description:
-      "We offer practical guidance across high-frequency practice areas. Choose a category to see how LexBridge matches you with counsel who handle matters like yours every day.",
+      "We offer practical guidance across high-frequency practice areas. Choose a category to see how Legal Duniya matches you with counsel who handle matters like yours every day.",
     tiles: [
       {
         title: "Divorce lawyer",

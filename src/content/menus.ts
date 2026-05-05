@@ -7,6 +7,7 @@ import type {
 export type ServiceNavLink = {
   label: string;
   href: string;
+  fullDescription?: string;
 };
 
 export const servicesCatalogHref = "/services";
@@ -32,14 +33,14 @@ export const headerServiceStripLinks: {
 } = {
   left: [
     { label: "Challan", href: "/service/challan" },
-    { label: "Rent agreement", href: "/service/property-legal-lease" },
+    { label: "Loan settlement", href: "/service/property-legal-lease" },
   ],
   right: [
     {
       label: "Property verification",
       href: "/service/property-suggested-verification",
     },
-    { label: "eStamp", href: "/service/estamp" },
+    { label: "Insurance claim", href: "/service/consumer-insurance" },
   ],
 };
 
@@ -158,14 +159,14 @@ export const lawyerServicesMenu: LawyerServicesCategory[] = [
 /** Two shortcuts; distinct visible labels and hrefs. */
 export const propertySuggestedLinks: PropertySuggestedLink[] = [
   {
-    label: "Property — verification",
+    label: "Property document",
     href: "/service/property-suggested-verification",
-    ariaLabel: "Property — verification",
+    ariaLabel: "Property document",
   },
   {
-    label: "Property — services",
+    label: "Property services",
     href: "/service/property-suggested-services",
-    ariaLabel: "Property — services",
+    ariaLabel: "Property services",
   },
 ];
 

@@ -8,10 +8,10 @@ export function JsonLd() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "LexBridge",
+    name: "Legal Duniya",
     url,
     description:
-      "LexBridge connects individuals and businesses with verified advocates for confidential legal consultations.",
+      "Legal Duniya connects individuals and businesses with verified advocates for confidential legal consultations.",
     address: {
       "@type": "PostalAddress",
       streetAddress: headOfficeAddressFull,

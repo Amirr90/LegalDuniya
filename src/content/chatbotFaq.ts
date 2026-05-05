@@ -7,13 +7,13 @@ export type ChatbotFaqEntry = {
 
 /** Shown when no FAQ matches and AI is unavailable or errors—still a full, helpful reply */
 export const CHATBOT_FALLBACK_ANSWER =
-  "Thanks for writing in. I am a website helper for LexBridge, not a lawyer: I do not answer one-off legal questions or tell you what you should do in your matter—that would be legal advice, and it needs an advocate who knows your full facts and jurisdiction.\n\nWhat I can tell you is how to move forward on LexBridge: use the quick questions below if they fit (how to find a lawyer, confidentiality, coverage, fees in general terms, and so on). For anything specific to your case, open the Contact page, describe your issue, city or state, and how soon you need help. A verified lawyer can then give you confidential guidance by chat or call.\n\nIf you are in immediate danger, contact local emergency services first.";
+  "Thanks for writing in. I am a website helper for Legal Duniya, not a lawyer: I do not answer one-off legal questions or tell you what you should do in your matter-that would be legal advice, and it needs an advocate who knows your full facts and jurisdiction.\n\nWhat I can tell you is how to move forward on Legal Duniya: use the quick questions below if they fit (how to find a lawyer, confidentiality, coverage, fees in general terms, and so on). For anything specific to your case, open the Contact page, describe your issue, city or state, and how soon you need help. A verified lawyer can then give you confidential guidance by chat or call.\n\nIf you are in immediate danger, contact local emergency services first.";
 
 export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
   {
     question: "My question is not in the list—how do I get an answer?",
     answer:
-      "If your question is about your own rights, documents, court steps, or what someone else can do to you, that is legal advice. This assistant cannot answer that. Use the Contact page: explain your situation in a few lines, your location, and any deadlines. LexBridge will connect you with a verified advocate for a confidential consult. For general questions only about how LexBridge works, try the quick questions below.",
+      "If your question is about your own rights, documents, court steps, or what someone else can do to you, that is legal advice. This assistant cannot answer that. Use the Contact page: explain your situation in a few lines, your location, and any deadlines. Legal Duniya will connect you with a verified advocate for a confidential consult. For general questions only about how Legal Duniya works, try the quick questions below.",
     keywords: [
       "not listed",
       "no answer",
@@ -27,9 +27,9 @@ export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
     ],
   },
   {
-    question: "What is LexBridge?",
+    question: "What is Legal Duniya?",
     answer:
-      "LexBridge connects you with verified legal experts across India. You can get confidential guidance by chat or call on matters like divorce, property, corporate law, criminal defence, and more. For a formal retainer or court representation, a qualified advocate from our network can help.",
+      "Legal Duniya connects you with verified legal experts across India. You can get confidential guidance by chat or call on matters like divorce, property, corporate law, criminal defence, and more. For a formal retainer or court representation, a qualified advocate from our network can help.",
     keywords: ["about", "platform", "what do you do", "who are you"],
   },
   {
@@ -53,7 +53,7 @@ export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
   {
     question: "Is my consultation confidential?",
     answer:
-      "Yes. LexBridge is built around confidential consults. What you share with verified experts is handled with professional discretion. This assistant only gives general website information—not legal advice.",
+      "Yes. Legal Duniya is built around confidential consults. What you share with verified experts is handled with professional discretion. This assistant only gives general website information-not legal advice.",
     keywords: ["privacy", "secret", "nda", "disclosure"],
   },
   {
@@ -71,7 +71,7 @@ export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
   {
     question: "Can you give legal advice in this chat?",
     answer:
-      "No. This assistant only shares general information about LexBridge. Legal advice needs a qualified lawyer who knows your facts and jurisdiction. Use Contact to reach a verified expert.",
+      "No. This assistant only shares general information about Legal Duniya. Legal advice needs a qualified lawyer who knows your facts and jurisdiction. Use Contact to reach a verified expert.",
     keywords: ["advice", "opinion", "should i sue", "is it legal", "my case"],
   },
   {
@@ -83,7 +83,7 @@ export const CHATBOT_FAQ: ChatbotFaqEntry[] = [
   {
     question: "How do I report a problem with the site?",
     answer:
-      "Use the Contact page and choose a general enquiry, describing what went wrong (page, device, browser). We read all feedback and use it to improve LexBridge.",
+      "Use the Contact page and choose a general enquiry, describing what went wrong (page, device, browser). We read all feedback and use it to improve Legal Duniya.",
     keywords: ["bug", "broken", "error", "feedback"],
   },
 ];

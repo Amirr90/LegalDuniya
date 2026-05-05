@@ -74,6 +74,7 @@ export async function getHeaderMenus(): Promise<HeaderMenusData> {
       items: (cat.children ?? []).map((it) => ({
         label: toMenuLabelCase(it.label),
         href: it.href,
+        fullDescription: it.fullDescription,
       })),
     })),
     propertyServicesMenu: property.map((cat, i) => ({
@@ -82,6 +83,7 @@ export async function getHeaderMenus(): Promise<HeaderMenusData> {
       items: (cat.children ?? []).map((it) => ({
         label: toMenuLabelCase(it.label),
         href: it.href,
+        fullDescription: it.fullDescription,
       })),
     })),
     businessIprMenu: business.map((sec, i) => ({
@@ -93,6 +95,7 @@ export async function getHeaderMenus(): Promise<HeaderMenusData> {
         items: (cat.children ?? []).map((it) => ({
           label: toMenuLabelCase(it.label),
           href: it.href,
+          fullDescription: it.fullDescription,
         })),
       })),
     })),
@@ -100,10 +103,15 @@ export async function getHeaderMenus(): Promise<HeaderMenusData> {
       left: stripLeft.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
       right: stripRight.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
     },
-    serviceCategories: categories.map((it) => ({ label: toMenuLabelCase(it.label), href: it.href })),
+    serviceCategories: categories.map((it) => ({
+      label: toMenuLabelCase(it.label),
+      href: it.href,
+      fullDescription: it.fullDescription,
+    })),
     comprehensiveLegalSolutionLinks: comprehensive.map((it) => ({
       label: toMenuLabelCase(it.label),
       href: it.href,
+      fullDescription: it.fullDescription,
     })),
     propertySuggestedLinks: suggested.map((it) => ({
       label: toMenuLabelCase(it.label),

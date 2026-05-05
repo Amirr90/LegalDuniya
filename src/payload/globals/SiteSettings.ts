@@ -21,7 +21,7 @@ export const SiteSettings: GlobalConfig = {
         {
           label: "Brand",
           fields: [
-            { name: "brandName", type: "text", required: true, defaultValue: "LexBridge" },
+            { name: "brandName", type: "text", required: true, defaultValue: "Legal Duniya" },
             {
               name: "tagline",
               type: "textarea",
@@ -81,7 +81,7 @@ export const SiteSettings: GlobalConfig = {
               name: "whatsappPrefillHeader",
               type: "textarea",
               defaultValue:
-                "Hello, I am on the LexBridge website and would like to speak with a lawyer. Please let me know the next steps.",
+                "Hello, I am on the Legal Duniya website and would like to speak with a lawyer. Please let me know the next steps.",
             },
           ],
         },

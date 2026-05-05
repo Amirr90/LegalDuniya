@@ -46,6 +46,7 @@ export const stats = [
 export type LawyerServicesLink = {
   label: string;
   href: string;
+  fullDescription?: string;
 };
 
 export type LawyerServicesCategory = {
@@ -159,7 +160,7 @@ export const legalUpdates: LegalUpdate[] = [
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Five minutes on LexBridge gave me clarity on an overseas immigration query. The advocate was precise and practical.",
+      "Five minutes on Legal Duniya gave me clarity on an overseas immigration query. The advocate was precise and practical.",
     name: "Rohit Agarwal",
     role: "Product lead",
     location: "United States",
